@@ -5,10 +5,10 @@ let app = new Vue({
     },
     data: {
         createData: {
-            date: dayjs(new Date).format("dd-mm-YYYY"),
+            date: '',
             robot: 40000,
-            summHold: 0,
-            diffHold: 0,
+            summHold: 1000,
+            diffHold: 1000,
             oklad: 35000,
             office: 35000
         }

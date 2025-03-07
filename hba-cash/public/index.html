@@ -28,11 +28,11 @@
             <div class="container-fluid mt-5">
                 <div class="form-inline">
                     <input type="date" class="form-control mb-2 mr-sm-2" placeholder="Дата" v-model="createData.date">
-                    <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Робот" v-model="createData.robot">
-                    <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Сумма холдов" v-model="createData.summHold">
-                    <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Разница холдов" v-model="createData.diffHold">
-                    <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Оклад" v-model="createData.oklad">
-                    <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Оффис" v-model="createData.office">
+                    <input class="form-control mb-2 mr-sm-2" placeholder="Робот" v-model="createData.robot">
+                    <input class="form-control mb-2 mr-sm-2" placeholder="Сумма холдов" v-model="createData.summHold">
+                    <input class="form-control mb-2 mr-sm-2" placeholder="Разница холдов" v-model="createData.diffHold">
+                    <input class="form-control mb-2 mr-sm-2" placeholder="Оклад" v-model="createData.oklad">
+                    <input class="form-control mb-2 mr-sm-2" placeholder="Оффис" v-model="createData.office">
                     <button class="btn btn-dark mb-2" @click="created()">Добавить данные</button>
                 </div>
             </div>
@@ -40,8 +40,8 @@
             <div class="container-fluid mt-5">
                 <h2 class="text-dark">Изменить Оклад по умолчанию</h2>
                 <div class="form-inline mt-3">
-                    <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Оклад супервайзера">
-                    <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Оклад трафик-мена">
+                    <input class="form-control mb-2 mr-sm-2" placeholder="Оклад супервайзера">
+                    <input class="form-control mb-2 mr-sm-2" placeholder="Оклад трафик-мена">
                     <button class="btn btn-dark mb-2">Изменить данные</button>
                 </div>
             </div>
