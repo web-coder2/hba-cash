@@ -36,7 +36,7 @@ app.post('/api/create', (req, res) => {
     res.sendStatus(200)
 
     let data = {
-        date: dayjs(req.body.date).format('dd-mm-YYYY'),
+        date: req.body.date,
         robot: parseInt(req.body.robot),
         summHold: parseInt(req.body.summHold),
         diffHold: parseInt(req.body.diffHold),

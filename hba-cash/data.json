@@ -1,34 +1,18 @@
 [
   {
-    "date": "Th-00-2025",
+    "date": "2025-03-04",
     "robot": 40000,
-    "summHold": 33000,
+    "summHold": 1000,
     "diffHold": 1000,
     "oklad": 35000,
     "office": 35000
   },
   {
-    "date": "Th-00-2025",
-    "robot": 40000,
-    "summHold": 52400,
-    "diffHold": 1500,
-    "oklad": 35000,
-    "office": 35000
-  },
-  {
-    "date": "Tu-00-2025",
-    "robot": 40000,
-    "summHold": 110,
-    "diffHold": 2000,
-    "oklad": 35000,
-    "office": 35000
-  },
-  {
-    "date": "Mo-00-2025",
-    "robot": 40000,
-    "summHold": 11000,
-    "diffHold": 250,
-    "oklad": 35000,
-    "office": 35000
+    "date": "",
+    "robot": 1000,
+    "summHold": 5000,
+    "diffHold": 4000,
+    "oklad": 1000,
+    "office": 20000
   }
 ]

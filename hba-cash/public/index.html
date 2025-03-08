@@ -28,7 +28,7 @@
             <div class="container-fluid mt-5">
                 <div class="form-inline">
                     <input required type="date" class="form-control mb-2 mr-sm-2" placeholder="Дата" v-model="createData.date">
-                    <input class="form-control mb-2 mr-sm-2" placeholder="Робот" v-model="createData.robot">
+                    <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Робот" v-model="createData.robot">
                     <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Сумма холдов" v-model="createData.summHold">
                     <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Разница холдов" v-model="createData.diffHold">
                     <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Оклад" v-model="createData.oklad">
@@ -40,9 +40,9 @@
             <div class="container-fluid mt-5">
                 <h2 class="text-dark">Изменить Оклад по умолчанию</h2>
                 <div class="form-inline mt-3">
-                    <input class="form-control mb-2 mr-sm-2" placeholder="Оклад супервайзера">
-                    <input class="form-control mb-2 mr-sm-2" placeholder="Оклад трафик-мена">
-                    <button class="btn btn-dark mb-2">Изменить данные</button>
+                    <input v-model="superOklad" class="form-control mb-2 mr-sm-2" placeholder="Оклад супервайзера">
+                    <input v-model="traficOklad" class="form-control mb-2 mr-sm-2" placeholder="Оклад трафик-мена">
+                    <button class="btn btn-dark mb-2" disabled>Изменить данные</button>
                 </div>
             </div>
 
@@ -103,7 +103,8 @@
                                 <td>{{ getNumData(item)[3] }}</td>
                                 <td>{{ getSalary(getNumData(item)[3])['super'] }}</td>
                                 <td>{{ getSalary(getNumData(item)[3])['trafic'] }}</td>
-                                <td>totaling....</td>
+                                <td :class="{ 'bg-danger text-light': getNumData(item)[4] < 0, 'table-dark': getNumData(item)[4] >= 0 }">
+                                    {{ getNumData(item)[4] }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -113,7 +114,7 @@
             <div class="container-fluid mt-5">
                 <h2 class="text-dark">Все данные по старой системе</h2>
                 <div class="table-responsive">
-                    <table class="table table-striped table-danger">
+                    <table class="table table-striped table-dark">
                         <thead class="thead-dark">
                             <tr>
                                 <th style="white-space: nowrap;">Дата</th>

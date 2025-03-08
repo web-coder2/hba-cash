@@ -12,6 +12,8 @@ let app = new Vue({
             oklad: 35000,
             office: 35000
         },
+        superOklad: 450,
+        traficOklad: 500,
         data: [],
         ladder: [
             [0, 150, 200],
@@ -64,10 +66,12 @@ let app = new Vue({
             let salary = Math.floor(0.37 * (data.summHold * 0.6) / 0.63 + data.summHold * 0.6)
             let officeSpent = Math.floor(data.robot + data.oklad + data.office + nalog + salary)
             let officeSalary = Math.floor((data.summHold + data.diffHold) * 0.6 * 10)
-            return [nalog, salary, officeSpent, officeSalary]
+            let total = Math.floor( officeSalary - officeSpent - this.getSalary(data.summHold).super - this.getSalary(data.summHold).trafic )
+            return [nalog, salary, officeSpent, officeSalary, total]
         },
         getSalary(num) {
             let idx = 0
+
             for (let i = 0; i < this.ladder.length; i++) {
                 if (num >= this.ladder[i][0]) {
                     idx += 1
@@ -82,7 +86,16 @@ let app = new Vue({
                 "trafic" : this.ladder[idx][2]
             }
 
-            return salaryData
+            let salaryZero = {
+                "super" : this.superOklad,
+                "trafic" : this.traficOklad
+            }
+
+            if (num < 0) {
+                return salaryZero
+            } else {
+                return salaryData
+            }
         }
     }
 })
