@@ -27,12 +27,12 @@
 
             <div class="container-fluid mt-5">
                 <div class="form-inline">
-                    <input type="date" class="form-control mb-2 mr-sm-2" placeholder="Дата" v-model="createData.date">
+                    <input required type="date" class="form-control mb-2 mr-sm-2" placeholder="Дата" v-model="createData.date">
                     <input class="form-control mb-2 mr-sm-2" placeholder="Робот" v-model="createData.robot">
-                    <input class="form-control mb-2 mr-sm-2" placeholder="Сумма холдов" v-model="createData.summHold">
-                    <input class="form-control mb-2 mr-sm-2" placeholder="Разница холдов" v-model="createData.diffHold">
-                    <input class="form-control mb-2 mr-sm-2" placeholder="Оклад" v-model="createData.oklad">
-                    <input class="form-control mb-2 mr-sm-2" placeholder="Оффис" v-model="createData.office">
+                    <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Сумма холдов" v-model="createData.summHold">
+                    <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Разница холдов" v-model="createData.diffHold">
+                    <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Оклад" v-model="createData.oklad">
+                    <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Оффис" v-model="createData.office">
                     <button class="btn btn-dark mb-2" @click="created()">Добавить данные</button>
                 </div>
             </div>
@@ -49,14 +49,21 @@
             <div class="container-fluid mt-5">
                 <h2 class="text-dark">Изменить Лестницу</h2>
                 <div class="table-responsive">
-                    <table class="table table-striped table-danger">
-                        <thead class="thead-dark">
-                            <tr>
+                    <table class="table table-striped table-dark">
+                        <thead class="thead-light">
+                            <tr class="thead-light">
                                 <th>Лестница</th>
                                 <th>Супервайзер</th>
                                 <th>Трафик-мен</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            <tr v-for="(item, idx) in ladder">
+                                <th><input class="form-control" type="number" v-model="item[0]"></th>
+                                <th><input class="form-control" type="number" v-model="item[1]"></th>
+                                <th><input class="form-control" type="number" v-model="item[2]"></th>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -64,8 +71,8 @@
             <div class="container-fluid mt-5">
                 <h2 class="text-dark">Все данные по новой системе</h2>
                 <div class="table-responsive">
-                    <table class="table table-striped table-danger">
-                        <thead class="thead-dark">
+                    <table class="table table-striped table-bordered table-hover table-dark">
+                        <thead class="thead-light">
                             <tr>
                                 <th style="white-space: nowrap;">Дата</th>
                                 <th style="white-space: nowrap;">Робот</th>
@@ -82,6 +89,23 @@
                                 <th style="white-space: nowrap;">Всего</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            <tr v-for="(item, idx) in data">
+                                <td>{{ item.date }}</td>
+                                <td>{{ item.robot }}</td>
+                                <td>{{ item.summHold }}</td>
+                                <td>{{ item.diffHold }}</td>
+                                <td>{{ item.oklad }}</td>
+                                <td>{{ item.office }}</td>
+                                <td>{{ getNumData(item)[0] }}</td>
+                                <td>{{ getNumData(item)[1] }}</td>
+                                <td>{{ getNumData(item)[2] }}</td>
+                                <td>{{ getNumData(item)[3] }}</td>
+                                <td>{{ getSalary(getNumData(item)[3])['super'] }}</td>
+                                <td>{{ getSalary(getNumData(item)[3])['trafic'] }}</td>
+                                <td>totaling....</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

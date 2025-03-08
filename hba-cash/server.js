@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const fs = require('fs')
 const path = require('path')
-
+const dayjs = require('dayjs')
 
 const urlencoded = bodyParser.urlencoded({extended: false})
 const app = express()
@@ -15,9 +15,9 @@ app.use(urlencoded)
 app.use(bodyParser.json())
 
 function writerData(data) {
-    let fileData = JSON.parse(fs.readFileSync('data.json'))
+    fileData = JSON.parse(fs.readFileSync('data.json'))
     fileData.push(data)
-    let newData = JSON.stringify(fileData)
+    let newData = JSON.stringify(fileData, null, 2) + '\n' // поле(1): знаечние(2), после значение идет новая строка
     fs.writeFileSync('data.json', newData)
 }
 
@@ -34,7 +34,17 @@ app.get('/', (req, res) => {
 
 app.post('/api/create', (req, res) => {
     res.sendStatus(200)
-    writerData(req.body)
+
+    let data = {
+        date: dayjs(req.body.date).format('dd-mm-YYYY'),
+        robot: parseInt(req.body.robot),
+        summHold: parseInt(req.body.summHold),
+        diffHold: parseInt(req.body.diffHold),
+        oklad: parseInt(req.body.oklad),
+        office: parseInt(req.body.office)
+    }
+
+    writerData(data)
 })
 
 app.get('/api/data', (req, res) => {
