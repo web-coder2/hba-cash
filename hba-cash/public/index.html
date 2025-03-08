@@ -49,7 +49,7 @@
             <div class="container-fluid mt-5">
                 <h2 class="text-dark">Изменить Лестницу</h2>
                 <div class="table-responsive">
-                    <table class="table table-striped table-dark">
+                    <table class="table table-striped table-bordered table-small table-dark">
                         <thead class="thead-light">
                             <tr class="thead-light">
                                 <th>Лестница</th>
@@ -73,24 +73,24 @@
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover table-dark">
                         <thead class="thead-light">
-                            <tr>
-                                <th style="white-space: nowrap;">Дата</th>
-                                <th style="white-space: nowrap;">Робот</th>
-                                <th style="white-space: nowrap;">Сумма холдов</th>
-                                <th style="white-space: nowrap;">Разница холдов</th>
-                                <th style="white-space: nowrap;">Оклад</th>
-                                <th style="white-space: nowrap;">Оффис</th>
-                                <th style="white-space: nowrap;">Налог</th>
-                                <th style="white-space: nowrap;">Зарплата брокерам</th>
-                                <th style="white-space: nowrap;">Общее потрачено</th>
-                                <th style="white-space: nowrap;">Общая прибыль</th>
-                                <th style="white-space: nowrap;">Зарплата супервайзера</th>
-                                <th style="white-space: nowrap;">Зарплата трафик-мена</th>
-                                <th style="white-space: nowrap;">Всего</th>
+                            <tr style="white-space: nowrap;">
+                                <th>Дата</th>
+                                <th>Робот</th>
+                                <th>Сумма холдов</th>
+                                <th>Разница холдов</th>
+                                <th>Оклад</th>
+                                <th>Оффис</th>
+                                <th>Налог</th>
+                                <th>Зарплата брокерам</th>
+                                <th>Общее потрачено</th>
+                                <th>Общая прибыль</th>
+                                <th>Зарплата супервайзера</th>
+                                <th>Зарплата трафик-мена</th>
+                                <th>Всего</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(item, idx) in data">
+                            <tr v-for="(item, idx) in data" style="white-space: nowrap;">
                                 <td>{{ item.date }}</td>
                                 <td>{{ item.robot }}</td>
                                 <td>{{ item.summHold }}</td>
@@ -101,10 +101,10 @@
                                 <td>{{ getNumData(item)[1] }}</td>
                                 <td>{{ getNumData(item)[2] }}</td>
                                 <td>{{ getNumData(item)[3] }}</td>
-                                <td>{{ getSalary(getNumData(item)[3])['super'] }}</td>
-                                <td>{{ getSalary(getNumData(item)[3])['trafic'] }}</td>
+                                <td>{{ getSalary(getNumData(item, 'new')[3])['super'] }}</td>
+                                <td>{{ getSalary(getNumData(item, 'new')[3])['trafic'] }}</td>
                                 <td :class="{ 'bg-danger text-light': getNumData(item)[4] < 0, 'table-dark': getNumData(item)[4] >= 0 }">
-                                    {{ getNumData(item)[4] }}</td>
+                                    {{ getNumData(item, 'new')[4] }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -132,6 +132,24 @@
                                 <th style="white-space: nowrap;">Всего</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            <tr v-for="(item, idx) in data" style="white-space: nowrap;">
+                                <td>{{ item.date }}</td>
+                                <td>{{ item.robot }}</td>
+                                <td>{{ item.summHold }}</td>
+                                <td>{{ item.diffHold }}</td>
+                                <td>{{ item.oklad }}</td>
+                                <td>{{ item.office }}</td>
+                                <td>{{ getNumDataOLD(item)[0] }}</td>
+                                <td>{{ getNumDataOLD(item)[1] }}</td>
+                                <td>{{ getNumDataOLD(item)[2] }}</td>
+                                <td>{{ getNumDataOLD(item)[3] }}</td>
+                                <td>{{ getSalaryOLD(getNumDataOLD(item)[3])['super'] }}</td>
+                                <td>{{ getSalaryOLD(getNumDataOLD(item)[3])['trafic'] }}</td>
+                                <td :class="{ 'bg-danger text-light': getNumDataOLD(item)[4] < 0, 'table-dark': getNumDataOLD(item)[4] >= 0 }">
+                                    {{ getNumDataOLD(item)[4] }}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

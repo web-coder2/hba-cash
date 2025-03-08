@@ -14,5 +14,13 @@
     "diffHold": 4000,
     "oklad": 1000,
     "office": 20000
+  },
+  {
+    "date": "",
+    "robot": 40000,
+    "summHold": 1000,
+    "diffHold": 1000,
+    "oklad": 35000,
+    "office": 35000
   }
 ]
