@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const fs = require('fs')
 const path = require('path')
 
+const Data = require(path.join(__dirname, 'models', 'data.js'))
+
 const urlencoded = bodyParser.urlencoded({extended: false})
 const app = express()
 const PORT = 3000
@@ -13,12 +15,6 @@ app.use(express.static('public'))
 app.use(urlencoded)
 app.use(bodyParser.json())
 
-function writerData(data) {
-    fileData = JSON.parse(fs.readFileSync('data.json'))
-    fileData.push(data)
-    let newData = JSON.stringify(fileData, null, 2) + '\n' // поле(1): знаечние(2), после значение идет новая строка
-    fs.writeFileSync('data.json', newData)
-}
 
 function readData() {
     let data = fs.readFileSync("data.json", 'utf-8')
@@ -33,17 +29,8 @@ app.get('/', (req, res) => {
 
 app.post('/api/create', (req, res) => {
     res.sendStatus(200)
-
-    let data = {
-        date: req.body.date,
-        robot: parseInt(req.body.robot),
-        summHold: parseInt(req.body.summHold),
-        diffHold: parseInt(req.body.diffHold),
-        oklad: parseInt(req.body.oklad),
-        office: parseInt(req.body.office)
-    }
-
-    writerData(data)
+    const data = new Data(req.body.date, req.body.robot, req.body.summHold, req.body.diffHold, req.body.oklad, req.body.office)
+    data.writeAll()
 })
 
 app.get('/api/data', (req, res) => {
