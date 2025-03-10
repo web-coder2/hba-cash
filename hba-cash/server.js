@@ -2,11 +2,10 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const fs = require('fs')
 const path = require('path')
-const dayjs = require('dayjs')
 
 const urlencoded = bodyParser.urlencoded({extended: false})
 const app = express()
-const port = 3000
+const PORT = 3000
 
 
 
@@ -52,6 +51,6 @@ app.get('/api/data', (req, res) => {
 })
 
 
-app.listen(port, () => {
-    console.log(`app running on localhost:${port}`)
+app.listen(PORT, () => {
+    console.log(`app running on localhost:${PORT}`)
 })
