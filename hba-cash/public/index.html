@@ -140,14 +140,14 @@
                                 <td>{{ item.diffHold }}</td>
                                 <td>{{ item.oklad }}</td>
                                 <td>{{ item.office }}</td>
-                                <td>{{ getNumDataOLD(item)[0] }}</td>
-                                <td>{{ getNumDataOLD(item)[1] }}</td>
-                                <td>{{ getNumDataOLD(item)[2] }}</td>
-                                <td>{{ getNumDataOLD(item)[3] }}</td>
-                                <td>{{ getSalaryOLD(getNumDataOLD(item)[3])['super'] }}</td>
-                                <td>{{ getSalaryOLD(getNumDataOLD(item)[3])['trafic'] }}</td>
-                                <td :class="{ 'bg-danger text-light': getNumDataOLD(item)[4] < 0, 'table-dark': getNumDataOLD(item)[4] >= 0 }">
-                                    {{ getNumDataOLD(item)[4] }}</td>
+                                <td>{{ item.nalog }}</td>
+                                <td>{{ item.brokerSalary }}</td>
+                                <td>{{ item.officeSpent }}</td>
+                                <td>{{ item.officeSalary }}</td>
+                                <td>{{ item.superxSalary }}</td>
+                                <td>{{ item.trafixSalary }}</td>
+                                <td :class="{ 'bg-danger text-light': item.total < 0, 'table-dark': item.total >= 0 }">
+                                    {{ item.total }}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const salary = require(path.join(__dirname, 'salary.js'))
 
 class Report {
 
@@ -18,7 +19,16 @@ class Report {
         this.officeSalary = Math.floor((this.summHold + this.diffHold) * 0.6 * 10)
         this.total = Math.floor(this.officeSalary - this.officeSpent)
         
+        this.trafixSalary = this.getSalary()['trafix']
+        this.superxSalary = this.getSalary()['superx']
+
     }
+
+    getSalary() {
+        let salaryObj = new salary(this.total).identifySalary()
+        return JSON.parse(salaryObj)
+    }
+
 
     getData() {
         return {
@@ -32,13 +42,15 @@ class Report {
             'brokerSalary': this.brokerSalary,
             'officeSpent': this.officeSpent,
             'officeSalary': this.officeSalary,
+            'trafixSalary': this.trafixSalary,
+            'superxSalary': this.superxSalary,
             'total': this.total
         }
     }
 
     saveData() {
         let filePath = path.join(__dirname, '..', 'data.json')
-        console.log(filePath)
+
 
         fs.readFile(filePath, 'utf-8', (err, content) => {
             if (err) {
