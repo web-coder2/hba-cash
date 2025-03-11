@@ -49,40 +49,14 @@ class Report {
     }
 
     saveData() {
+        
         let filePath = path.join(__dirname, '..', 'data.json')
+        let fileData = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+        fileData.push(this.getData())
+        
+        let newData = JSON.stringify(fileData, null, 2)
+        fs.writeFileSync(filePath, newData)
 
-
-        fs.readFile(filePath, 'utf-8', (err, content) => {
-            if (err) {
-                console.error("Ошибка чтения файла:", err);
-                return; // Важно выйти из функции, если произошла ошибка
-            }
-
-            try {
-                let fileData = [];
-                if (content) { // Проверяем, что файл не пустой
-                    fileData = JSON.parse(content);
-                }
-
-                // Добавляем новые данные в массив
-                fileData.push(this.getData());
-
-                // Преобразуем обратно в JSON строку
-                const jsonData = JSON.stringify(fileData, null, 2); // null, 2 для красивого форматирования
-
-                // Записываем данные обратно в файл
-                fs.writeFile(filePath, jsonData, (err) => {
-                    if (err) {
-                        console.error("Ошибка записи в файл:", err);
-                    } else {
-                        console.log("Данные успешно сохранены в файл!");
-                    }
-                });
-
-            } catch (parseError) {
-                console.error("Ошибка парсинга JSON:", parseError);
-            }
-        });
     }
 
 }
