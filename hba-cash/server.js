@@ -2,8 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const fs = require('fs')
 const path = require('path')
-
-const Data = require(path.join(__dirname, 'models', 'data.js'))
+const report = require(path.join(__dirname, 'models', 'report.js'))
 
 const urlencoded = bodyParser.urlencoded({extended: false})
 const app = express()
@@ -25,16 +24,14 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html')
 })
 
-
-
-app.post('/api/create', (req, res) => {
-    res.sendStatus(200)
-    const data = new Data(req.body.date, req.body.robot, req.body.summHold, req.body.diffHold, req.body.oklad, req.body.office)
-    data.writeAll()
-})
-
 app.get('/api/data', (req, res) => {
     res.json(readData())
+})
+
+app.post('/api/create', (req, res) => {
+    let newData = new report(req.body.date, req.body.robot, req.body.summHold, req.body.diffHold, req.body.oklad, req.body.office)
+    newData.saveData()
+    res.sendStatus(200)
 })
 
 

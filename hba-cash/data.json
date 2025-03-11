@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "date": "2025-03-12",
+    "robot": 40000,
+    "summHold": 1000,
+    "diffHold": 1000,
+    "oklad": 35000,
+    "office": 35000,
+    "nalog": 840,
+    "brokerSalary": 952,
+    "officeSpent": 111792,
+    "officeSalary": 12000,
+    "total": -99792
+  }
+]
