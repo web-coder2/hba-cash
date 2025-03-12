@@ -103,5 +103,20 @@
     "trafixSalary": 19000,
     "superxSalary": 19000,
     "total": 130928
+  },
+  {
+    "date": "2025-04-15",
+    "robot": 12000,
+    "summHold": 50010,
+    "diffHold": 3000,
+    "oklad": 35000,
+    "office": 35000,
+    "nalog": 22264,
+    "brokerSalary": 47628,
+    "officeSpent": 151892,
+    "officeSalary": 318060,
+    "trafixSalary": 19000,
+    "superxSalary": 19000,
+    "total": 166168
   }
 ]
