@@ -7,7 +7,7 @@ const urlencoded = bodyParser.urlencoded({extended: false})
 
 const report = require(path.join(__dirname, 'models', 'report.js'))
 const salary = require(path.join(__dirname, 'models', 'salary.js'))
-
+const grouped = require(path.join(__dirname, 'models', 'grouped.js'))
 
 const app = express()
 const PORT = 3000
@@ -22,6 +22,12 @@ app.use(bodyParser.json())
 function dataReader() {
     let filePath = path.join(__dirname, 'data.json')
     let fileData = fs.readFileSync(filePath, 'utf-8')
+
+
+    let groupers = new Grouped(JSON.parse(fileData))
+    console.log(groupers)
+
+
     return JSON.parse(fileData)
 }
 
@@ -39,6 +45,7 @@ app.post('/api/create', (req, res) => {
     newData.saveData()
     res.sendStatus(200)
 })
+
 
 
 

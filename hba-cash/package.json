@@ -1,0 +1,17 @@
+{
+  "name": "hba-cash",
+  "version": "1.0.0",
+  "description": "hba-cash on vue.js and express(node.js) rewrited code",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "w3b-c0d3r",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "dayjs": "^1.11.13",
+    "express": "^4.21.2"
+  }
+}
