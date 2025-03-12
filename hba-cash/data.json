@@ -73,5 +73,35 @@
     "trafixSalary": 500,
     "superxSalary": 500,
     "total": 0
+  },
+  {
+    "date": "2025-01-14",
+    "robot": 40000,
+    "summHold": 150000,
+    "diffHold": 1000,
+    "oklad": 60000,
+    "office": 35000,
+    "nalog": 63420,
+    "brokerSalary": 142857,
+    "officeSpent": 341277,
+    "officeSalary": 906000,
+    "trafixSalary": 20000,
+    "superxSalary": 20000,
+    "total": 564723
+  },
+  {
+    "date": "2025-01-13",
+    "robot": 10500,
+    "summHold": 44000,
+    "diffHold": 1400,
+    "oklad": 35000,
+    "office": 35000,
+    "nalog": 19068,
+    "brokerSalary": 41904,
+    "officeSpent": 141472,
+    "officeSalary": 272400,
+    "trafixSalary": 19000,
+    "superxSalary": 19000,
+    "total": 130928
   }
 ]

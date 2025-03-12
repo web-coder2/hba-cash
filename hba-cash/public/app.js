@@ -101,19 +101,39 @@ let app = new Vue({
               labels: arrayDateValues,
               datasets: [
                 {
-                  pointBackgroundColor: 'rgb(39, 55, 96)',
-                  pointRadius: 4,
-                  data: arrayValuesParams,
+                    pointBackgroundColor: 'rgb(136, 30, 30)',
+                    hoverOffset: 20,
+                    fill: true,
+                    borderColor: "rgb(101, 72, 160)",
+                    pointRadius: 5,
+                    pointHoverRadius: 10,
+                    tension: 0.35,
+                    pointBackgroundColor: "rgba(89, 71, 133, 0.7)",
+                    data: arrayValuesParams,
                 },
               ],
             };
       
             const options = {
-              responsive: true,
-              maintainAspectRatio: false,
-              legend: {
-                display: false,
-              }
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                maintainAspectRatio: false,
+                tooltips: {
+                    mode: 'label',
+                    intersect: false,
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
             };
       
             const ctx = this.$refs.chartDiv.getContext('2d');

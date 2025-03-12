@@ -196,14 +196,14 @@
             </div>
 
             <div class="container-fluid mt-5">
-                <div>
+                <div class="container-fluid">
                     <h4 class="tet-dark">Выбери параметр для оси OY</h4>
                     <select class="form-control" v-model="paramName">
                         <option v-for="(item) in allDataParams" :value="item">{{ item }}</option>
                     </select>
                     <button v-if="paramName != '' " class="w-100 btn btn-dark mt-3" @click="createChart(getAllValueParams('date'), getAllValueParams(paramName))">Применить</button>
                 </div>
-                <div>
+                <div class="mt-3">
                     <canvas ref="chartDiv"></canvas>
                 </div>
             </div>
