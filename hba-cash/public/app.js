@@ -101,15 +101,16 @@ let app = new Vue({
               labels: arrayDateValues,
               datasets: [
                 {
-                    pointBackgroundColor: 'rgb(136, 30, 30)',
+                    pointBackgroundColor: 'rgb(0, 0, 0)',
                     hoverOffset: 20,
+                    fillColor: 'rgba(0, 0, 0, 1)',
                     fill: true,
-                    borderColor: "rgb(101, 72, 160)",
+                    borderColor: "rgba(0, 0, 0, 0.8)",
                     pointRadius: 5,
                     pointHoverRadius: 10,
-                    tension: 0.35,
-                    pointBackgroundColor: "rgba(89, 71, 133, 0.7)",
+                    tension: 0.5,
                     data: arrayValuesParams,
+                    backgroundColor: "rgba(0, 0, 0, 0.6)"
                 },
               ],
             };

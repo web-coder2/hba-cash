@@ -8,6 +8,7 @@ const urlencoded = bodyParser.urlencoded({extended: false})
 const report = require(path.join(__dirname, 'models', 'report.js'))
 const salary = require(path.join(__dirname, 'models', 'salary.js'))
 const grouped = require(path.join(__dirname, 'models', 'grouped.js'))
+const getByLadder = require(path.join(__dirname, 'models', 'getByLadder.js'))
 
 const app = express()
 const PORT = 3000
@@ -17,6 +18,17 @@ const PORT = 3000
 app.use(express.static('public'))
 app.use(urlencoded)
 app.use(bodyParser.json())
+
+
+let testHuest = [
+    {"ladder" : 0, "trafic" : 45345500, 'super' : 345345500},  
+    {"ladder" : 10000, "trafic" : 103453400, 'super' : 1345345000},    
+    {"ladder" : 20000, "trafic" : 2034534500, 'super' : 2034534500},    
+    {"ladder" : 30000, "trafic" : 30034534350, 'super' : 303453450},    
+]
+
+let tester = new getByLadder(testHuest)
+tester.reWriteCopyFile()
 
 
 function dataReader() {
