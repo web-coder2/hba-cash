@@ -46,6 +46,7 @@ class GetToLadder {
 
 			fileData[i]['trafixSalary'] = newSalaryObj['trafix']
 			fileData[i]['superxSalary'] = newSalaryObj['superx']
+			fileData[i]['total'] -= (newSalaryObj['trafix'] + newSalaryObj['superx'])
 		}
 
 		let fileNewDataPath = path.join(__dirname, '..', 'newData.json')
