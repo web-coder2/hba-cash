@@ -10,26 +10,47 @@ class Grouped {
     }
 
     changeDateFormat(date) {
-        let newDate = dayjs(date).format('dd-mm-YYYY').split('-')
-        let azaza = `${newDate[1]}-${newDate}[2]`
-        return azaza
+        return dayjs(date).format('MM-YYYY')
     }
 
     grouper() {
         for (let i = 0; i < this.fileData.length; i++) {
-            this.fileData[i]['date'] = this.changeDateFormat(this.fileData[i]['date'])
+            let formatedDate = this.changeDateFormat(this.fileData[i]['date'])
 
-            if (this.fileData[i]['date'] in this.groupedData) {
-                this.groupedData['date']['summHold'] += this.fileData[i]['summHold']
-                this.groupedData['date']['diffHold'] += this.fileData[i]['diffHold']
+            if (this.groupedData[formatedDate]) {
+                this.groupedData[formatedDate]['robot'] += this.fileData[i]['robot']
+                this.groupedData[formatedDate]['summHold'] += this.fileData[i]['summHold']
+                this.groupedData[formatedDate]['diffHold'] += this.fileData[i]['diffHold']
+                this.groupedData[formatedDate]['oklad'] += this.fileData[i]['oklad']
+                this.groupedData[formatedDate]['office'] += this.fileData[i]['office']
+                this.groupedData[formatedDate]['brokerSalary'] += this.fileData[i]['brokerSalary']
+                this.groupedData[formatedDate]['officeSpent'] += this.fileData[i]['officeSpent']
+                this.groupedData[formatedDate]['officeSalary'] += this.fileData[i]['officeSalary']
+                this.groupedData[formatedDate]['trafixSalary'] += this.fileData[i]['trafixSalary']
+                this.groupedData[formatedDate]['superxSalary'] += this.fileData[i]['superxSalary']
+                this.groupedData[formatedDate]['total'] += this.fileData[i]['total']
+
             } else {
-                this.groupedData.push({
-                    'date' : this.fileData[i]['date']
-                })
+                this.groupedData[formatedDate] = {
+                    "date" : formatedDate,
+                    'robot' : this.fileData[i]['robot'],
+                    'summHold' : this.fileData[i]['summHold'],
+                    'diffHold' : this.fileData[i]['diffHold'],
+                    'oklad' : this.fileData[i]['oklad'],
+                    'office' : this.fileData[i]['office'],
+                    'nalog' : this.fileData[i]['nalog'],
+                    'brokerSalary' : this.fileData[i]['brokerSalary'],
+                    'officeSpent' : this.fileData[i]['officeSpent'],
+                    'officeSalary' : this.fileData[i]['officeSalary'],
+                    'trafixSalary' : this.fileData[i]['trafixSalary'],
+                    'superxSalary' : this.fileData[i]['superxSalary'],
+                    'total' : this.fileData[i]['total']
+                }
             }
 
         }
-        return this.groupedData
+        const groupedDataArray = Object.values(this.groupedData)
+        return groupedDataArray
     }
 
 }

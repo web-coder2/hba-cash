@@ -24,11 +24,9 @@ function dataReader() {
     let fileData = fs.readFileSync(filePath, 'utf-8')
 
 
-    let groupers = new Grouped(JSON.parse(fileData))
-    console.log(groupers)
+    let groupers = new grouped(JSON.parse(fileData))
 
-
-    return JSON.parse(fileData)
+    return [JSON.parse(fileData), groupers.grouper()]
 }
 
 
@@ -37,7 +35,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/data', (req, res) => {
-    res.json(dataReader())
+    res.json(dataReader()[0])
 })
 
 app.post('/api/create', (req, res) => {
@@ -46,7 +44,9 @@ app.post('/api/create', (req, res) => {
     res.sendStatus(200)
 })
 
-
+app.get('/api/groupedData', (req, res) => {
+    res.json(dataReader()[1])
+})
 
 
 app.listen(PORT, () => {

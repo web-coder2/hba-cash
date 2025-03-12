@@ -1,7 +1,12 @@
 let app = new Vue({
     el: '#app',
-    mounted() {
-        this.fetchAllData()
+    async mounted() {
+        await this.fetchAllData()
+        await this.fetchGroupedData()
+
+        this.allDataParams = this.getAllDataParams()
+
+        console.log(this.groupedData)
     },
     data: {
         createData: {
@@ -12,14 +17,10 @@ let app = new Vue({
             oklad: 35000,
             office: 35000
         },
-
         superOklad: 450,
         traficOklad: 500,
-
-        superOkladOLD: 1000,
-        traficOkladOLD: 1000,
-
         data: [],
+        groupedData: [],
         ladder: [
             [0, 150, 200],
             [10000, 1000, 1000],
@@ -36,7 +37,10 @@ let app = new Vue({
             [350000, 35000, 35000],
             [400000, 40000, 40000],
             [500000, 50000, 50000],
-        ]
+        ],
+        allDataParams: [],
+        paramName: '',
+        chart: null,
     },
     methods: {
         async created() {
@@ -66,41 +70,58 @@ let app = new Vue({
                 headers: { 'Content-Type': 'application/json' }
             }).then(res => res.json()).then(data => this.data = data)
         },
-        getNumData(data) {
-            let nalog = Math.floor((data.summHold + data.diffHold) * 10 * 0.6 * 0.07)
-            let salary = Math.floor(0.37 * (data.summHold * 0.6) / 0.63 + data.summHold * 0.6)
-            let officeSpent = Math.floor(data.robot + data.oklad + data.office + nalog + salary)
-            let officeSalary = Math.floor((data.summHold + data.diffHold) * 0.6 * 10)
-            let total = Math.floor( officeSalary - officeSpent - this.getSalary(data.summHold).super - this.getSalary(data.summHold).trafic )
-            return [nalog, salary, officeSpent, officeSalary, total]
+        async fetchGroupedData() {
+            let response = await fetch('/api/groupedData', {
+                method: "GET",
+                headers: {'Content-Type' : 'application/json'}
+            }).then(res => res.json()).then(data => this.groupedData = data)
         },
-        getSalary(num) {
-            let idx = 0
+        getAllValueParams(param) {
+            let valuesArr = []
 
-            for (let i = 0; i < this.ladder.length; i++) {
-                if (num >= this.ladder[i][0]) {
-                    idx += 1
-                } else if (num < this.ladder[i][0]) {
-                    idx = i - 1 
-                    break
-                }
+            for (let i = 0; i < this.groupedData.length; i++) {
+                valuesArr.push(this.groupedData[i][param])
             }
-
-            let salaryData = {
-                "super" : this.ladder[idx][1],
-                "trafic" : this.ladder[idx][2]
+            return valuesArr
+        },
+        getAllDataParams() {
+            let someObject = this.groupedData[0];
+            let keys = [];
+            if (someObject) {
+              keys = Object.keys(someObject);
             }
-
-            let salaryZero = {
-                "super" : this.superOklad,
-                "trafic" : this.traficOklad
+            return keys;
+        },
+        createChart(arrayDateValues, arrayValuesParams) {
+            if (this.chart) {
+              this.chart.destroy();
             }
-
-            if (num < 0) {
-                return salaryZero
-            } else {
-                return salaryData
-            }
+      
+            const chartData = {
+              labels: arrayDateValues,
+              datasets: [
+                {
+                  pointBackgroundColor: 'rgb(39, 55, 96)',
+                  pointRadius: 4,
+                  data: arrayValuesParams,
+                },
+              ],
+            };
+      
+            const options = {
+              responsive: true,
+              maintainAspectRatio: false,
+              legend: {
+                display: false,
+              }
+            };
+      
+            const ctx = this.$refs.chartDiv.getContext('2d');
+            this.chart = new Chart(ctx, {
+              type: 'line',
+              data: chartData,
+              options: options,
+            });
         }
     }
 })
