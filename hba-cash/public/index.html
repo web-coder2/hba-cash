@@ -49,7 +49,7 @@
 
             <div class="container-fluid mt-5">
                 <h2 class="text-dark">Изменить Лестницу</h2>
-                <p class="text-warning">Шобы получить данные по новой системе нужно либо просто изменить листницу либо просто нажать применить так как логика так написана изначально была что метод по записи новых данных был создан для изменения по таблицу (да я был немножко апкуреный тогда)</p>
+                <h4 class="text-danger mt-5 mb-5">Шобы получить данные по новой системе нужно либо просто изменить листницу либо просто нажать применить так как логика так написана изначально была что метод по записи новых данных был создан для изменения по таблицу (да я был немножко апкуреный тогда)</h4>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-small table-dark">
                         <thead class="thead-light">
@@ -136,7 +136,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="(item, idx) in groupedNewData" style="white-space: nowrap;">
-                                <td>{{ item.date }}</td>
+                                <td>{{ item.date }}  <span class="text-warning">{{ item.mounth }}</span></td>
                                 <td>{{ item.robot }}</td>
                                 <td>{{ item.summHold }}</td>
                                 <td>{{ item.diffHold }}</td>
@@ -158,10 +158,10 @@
             <div class="container-fluid mt-5">
                 <div class="container-fluid">
                     <h2 class="text-dark">Выбери параметр для оси OY по новой системе</h2>
-                    <select class="form-control" v-model="paramNameNew">
+                    <select class="chartBTN form-control" v-model="paramNameNew">
                         <option v-for="(item) in allDataParams" :value="item">{{ item }}</option>
                     </select>
-                    <button class="w-100 btn btn-dark mt-3" @click="createChartNew(getAllValueParamsNew('date'), getAllValueParamsNew(paramNameNew))">Применить</button>
+                    <button class="chartBTN btn btn-dark mt-3" @click="createChartNew(getAllValueParamsNew('date'), getAllValueParamsNew(paramNameNew))">Применить</button>
                 </div>
                 <div class="mt-5">
                     <canvas ref="chartDivNew"></canvas>
@@ -235,7 +235,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="(item, idx) in groupedData" style="white-space: nowrap;">
-                                <td>{{ item.date }}</td>
+                                <td>{{ item.date }} <span class="text-warning">{{ item.mounth }}</span></td>
                                 <td>{{ item.robot }}</td>
                                 <td>{{ item.summHold }}</td>
                                 <td>{{ item.diffHold }}</td>
@@ -257,10 +257,10 @@
             <div class="container-fluid mt-5">
                 <div class="container-fluid">
                     <h2 class="text-dark">Выбери параметр для оси OY по старой системе</h2>
-                    <select class="form-control" v-model="paramName">
+                    <select class="chartBTN form-control" v-model="paramName">
                         <option v-for="(item) in allDataParams" :value="item">{{ item }}</option>
                     </select>
-                    <button class="w-100 btn btn-dark mt-3" @click="createChart(getAllValueParams('date'), getAllValueParams(paramName))">Применить</button>
+                    <button class="chartBTN btn btn-dark mt-3" @click="createChart(getAllValueParams('date'), getAllValueParams(paramName))">Применить</button>
                 </div>
                 <div class="mt-5">
                     <canvas ref="chartDiv"></canvas>
@@ -279,3 +279,18 @@
         <script src="app.js"></script>
     </body>
 </html>
+
+<style type="text/css">
+    
+    .chartBTN {
+        width: 20vw;
+    }
+
+    @media(max-width: 480px) {
+        .chartBTN {
+            width: 90vw;
+            margin-left: 5vw;
+        }
+    }
+
+</style>

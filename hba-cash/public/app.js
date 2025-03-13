@@ -9,6 +9,9 @@ let app = new Vue({
 
         this.allDataParams = this.getAllDataParams()
 
+        this.groupedData.sort((a, b) => a.mounthIDX - b.mounthIDX)
+        this.groupedNewData.sort((a, b) => a.mounthIDX - b.mounthIDX)
+
         this.createChart(this.getAllValueParams('date'), this.getAllValueParams(this.paramName))
         this.createChartNew(this.getAllValueParamsNew('date'), this.getAllValueParamsNew(this.paramNameNew))
 
