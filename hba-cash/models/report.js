@@ -22,6 +22,7 @@ class Report {
         this.trafixSalary = this.getSalary()['trafix']
         this.superxSalary = this.getSalary()['superx']
 
+        this.totalAll = Math.floor(this.total - this.trafixSalary - this.superxSalary)
     }
 
     getSalary() {
@@ -44,7 +45,8 @@ class Report {
             'officeSalary': this.officeSalary,
             'trafixSalary': this.trafixSalary,
             'superxSalary': this.superxSalary,
-            'total': this.total
+            'total': this.total,
+            'totalAll': this.totalAll
         }
     }
 

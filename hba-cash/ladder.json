@@ -1,0 +1,77 @@
+[
+  {
+    "ladder": 0,
+    "trafic": 123123123,
+    "super": 123123
+  },
+  {
+    "ladder": 123123,
+    "trafic": 123123,
+    "super": 213123
+  },
+  {
+    "ladder": 20000,
+    "trafic": 2000,
+    "super": 2000
+  },
+  {
+    "ladder": 30000,
+    "trafic": 3000,
+    "super": 3000
+  },
+  {
+    "ladder": 40000,
+    "trafic": 4000,
+    "super": 4000
+  },
+  {
+    "ladder": 50000,
+    "trafic": 5000,
+    "super": 5000
+  },
+  {
+    "ladder": 60000,
+    "trafic": 6000,
+    "super": 6000
+  },
+  {
+    "ladder": 70000,
+    "trafic": 7000,
+    "super": 7000
+  },
+  {
+    "ladder": 80000,
+    "trafic": 8000,
+    "super": 8000
+  },
+  {
+    "ladder": 90000,
+    "trafic": 9000,
+    "super": 9000
+  },
+  {
+    "ladder": 100000,
+    "trafic": 10000,
+    "super": 10000
+  },
+  {
+    "ladder": 130000,
+    "trafic": 13000,
+    "super": 13000
+  },
+  {
+    "ladder": 150000,
+    "trafic": 17000,
+    "super": 17000
+  },
+  {
+    "ladder": 180000,
+    "trafic": 19000,
+    "super": 19000
+  },
+  {
+    "ladder": 200000,
+    "trafic": 20000123123123,
+    "super": 20000123123123
+  }
+]

@@ -3,8 +3,14 @@ let app = new Vue({
     async mounted() {
         await this.fetchAllData()
         await this.fetchGroupedData()
+        await this.fetchLadder()
+        await this.fetchNewData()
+        await this.fetchGroupedNewData()
 
         this.allDataParams = this.getAllDataParams()
+
+        this.createChart(this.getAllValueParams('date'), this.getAllValueParams(this.paramName))
+        this.createChartNew(this.getAllValueParamsNew('date'), this.getAllValueParamsNew(this.paramNameNew))
 
         console.log(this.groupedData)
     },
@@ -21,26 +27,14 @@ let app = new Vue({
         traficOklad: 500,
         data: [],
         groupedData: [],
-        ladder: [
-            [0, 150, 200],
-            [10000, 1000, 1000],
-            [20000, 2000, 2000],
-            [30000, 3000, 3000],
-            [40000, 4000, 4000],
-            [50000, 5000, 5000],
-            [60000, 6000, 6000],
-            [70000, 7000, 7000],
-            [100000, 10000, 10000],
-            [150000, 15000, 15000],
-            [200000, 20000, 20000],
-            [300000, 30000, 30000],
-            [350000, 35000, 35000],
-            [400000, 40000, 40000],
-            [500000, 50000, 50000],
-        ],
+        newData: [],
+        groupedNewData: [],
+        ladder: [],
         allDataParams: [],
-        paramName: '',
+        paramName: 'office',
+        paramNameNew: 'office',
         chart: null,
+        chartNew: null
     },
     methods: {
         async created() {
@@ -76,11 +70,52 @@ let app = new Vue({
                 headers: {'Content-Type' : 'application/json'}
             }).then(res => res.json()).then(data => this.groupedData = data)
         },
+        async fetchLadder() {
+            let response = await fetch('/api/getLadder', {
+                method: 'GET',
+                headers: {'Content-Type' : 'application/json'},
+            }).then(res => res.json()).then(data => this.ladder = data)
+
+            console.log(this.ladder)
+
+        },
+        async testNahuy() {
+            for (let row = 0; row < this.ladder.length; row++) {
+                this.ladder[row]['ladder'] = parseInt(this.ladder[row]['ladder'])
+                this.ladder[row]['super'] = parseInt(this.ladder[row]['super'])
+                this.ladder[row]['trafic'] = parseInt(this.ladder[row]['trafic'])
+            }
+            let response = await fetch('/api/changeLadder', {
+                method: "POST",
+                headers: {'Content-Type' : 'application/json'},
+                body: JSON.stringify({"ladder" : this.ladder})
+            })
+        },
+        async fetchNewData() {
+            let response = await fetch('/api/newData', {
+                method: 'GET',
+                headers: {'Content-Type' : 'application/json'}
+            }).then(res => res.json()).then(data => this.newData = data)
+        },
+        async fetchGroupedNewData() {
+            let response = await fetch('/api/groupedNewData', {
+                method: 'GET',
+                headers: {'Content-Type' : 'application/json'}
+            }).then(res => res.json()).then(data => this.groupedNewData = data)
+        },
         getAllValueParams(param) {
             let valuesArr = []
 
             for (let i = 0; i < this.groupedData.length; i++) {
                 valuesArr.push(this.groupedData[i][param])
+            }
+            return valuesArr
+        },
+        getAllValueParamsNew(param) {
+            let valuesArr = []
+
+            for (let i = 0; i < this.groupedNewData.length; i++) {
+                valuesArr.push(this.groupedNewData[i][param])
             }
             return valuesArr
         },
@@ -139,6 +174,58 @@ let app = new Vue({
       
             const ctx = this.$refs.chartDiv.getContext('2d');
             this.chart = new Chart(ctx, {
+              type: 'line',
+              data: chartData,
+              options: options,
+            });
+        },
+        createChartNew(arrayDateValues, arrayValuesParams) {
+            if (this.chartNew) {
+              this.chartNew.destroy();
+            }
+      
+            const chartData = {
+              labels: arrayDateValues,
+              datasets: [
+                {
+                    pointBackgroundColor: 'rgb(0, 0, 0)',
+                    hoverOffset: 20,
+                    fillColor: 'rgba(0, 0, 0, 1)',
+                    fill: true,
+                    borderColor: "rgba(0, 0, 0, 0.8)",
+                    pointRadius: 5,
+                    pointHoverRadius: 10,
+                    tension: 0.5,
+                    data: arrayValuesParams,
+                    backgroundColor: "rgba(0, 0, 0, 0.6)"
+                },
+              ],
+            };
+      
+            const options = {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                maintainAspectRatio: false,
+                tooltips: {
+                    mode: 'label',
+                    intersect: false,
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
+            };
+      
+            const ctx = this.$refs.chartDivNew.getContext('2d');
+            this.chartNew = new Chart(ctx, {
               type: 'line',
               data: chartData,
               options: options,

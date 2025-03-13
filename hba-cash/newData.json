@@ -10,9 +10,9 @@
     "brokerSalary": 952,
     "officeSpent": 111792,
     "officeSalary": 12000,
-    "trafixSalary": 45345500,
-    "superxSalary": 345345500,
-    "total": -390790792
+    "trafixSalary": 123123123,
+    "superxSalary": 123123,
+    "total": -123346038
   },
   {
     "date": "2025-03-27",
@@ -25,9 +25,9 @@
     "brokerSalary": 2380,
     "officeSpent": 64680,
     "officeSalary": 30000,
-    "trafixSalary": 45345500,
-    "superxSalary": 345345500,
-    "total": -390725680
+    "trafixSalary": 123123123,
+    "superxSalary": 123123,
+    "total": -123280926
   },
   {
     "date": "2025-03-23",
@@ -40,9 +40,9 @@
     "brokerSalary": 76190,
     "officeSpent": 190210,
     "officeSalary": 486000,
-    "trafixSalary": 30034534350,
-    "superxSalary": 303453450,
-    "total": -30337692010
+    "trafixSalary": 20000123123123,
+    "superxSalary": 20000123123123,
+    "total": -40000245950456
   },
   {
     "date": "2025-02-28",
@@ -55,9 +55,9 @@
     "brokerSalary": 19047,
     "officeSpent": 77127,
     "officeSalary": 144000,
-    "trafixSalary": 30034534350,
-    "superxSalary": 303453450,
-    "total": -30337920927
+    "trafixSalary": 19000,
+    "superxSalary": 19000,
+    "total": 28873
   },
   {
     "date": "2025-02-16",
@@ -70,9 +70,9 @@
     "brokerSalary": 0,
     "officeSpent": 0,
     "officeSalary": 0,
-    "trafixSalary": 45345500,
-    "superxSalary": 345345500,
-    "total": -390691000
+    "trafixSalary": 123123123,
+    "superxSalary": 123123,
+    "total": -123246246
   },
   {
     "date": "2025-01-14",
@@ -85,9 +85,9 @@
     "brokerSalary": 142857,
     "officeSpent": 341277,
     "officeSalary": 906000,
-    "trafixSalary": 30034534350,
-    "superxSalary": 303453450,
-    "total": -30337423077
+    "trafixSalary": 20000123123123,
+    "superxSalary": 20000123123123,
+    "total": -40000245681523
   },
   {
     "date": "2025-01-13",
@@ -100,9 +100,9 @@
     "brokerSalary": 41904,
     "officeSpent": 141472,
     "officeSalary": 272400,
-    "trafixSalary": 30034534350,
-    "superxSalary": 303453450,
-    "total": -30337856872
+    "trafixSalary": 19000,
+    "superxSalary": 19000,
+    "total": 92928
   },
   {
     "date": "2025-04-15",
@@ -115,8 +115,24 @@
     "brokerSalary": 47628,
     "officeSpent": 151892,
     "officeSalary": 318060,
-    "trafixSalary": 30034534350,
-    "superxSalary": 303453450,
-    "total": -30337821632
+    "trafixSalary": 19000,
+    "superxSalary": 19000,
+    "total": 128168
+  },
+  {
+    "date": "2025-04-22",
+    "robot": 40000,
+    "summHold": 111000,
+    "diffHold": 1000,
+    "oklad": 35000,
+    "office": 35000,
+    "nalog": 47040,
+    "brokerSalary": 105714,
+    "officeSpent": 262754,
+    "officeSalary": 672000,
+    "trafixSalary": 20000123123123,
+    "superxSalary": 20000123123123,
+    "total": -40000245837000,
+    "totalAll": 369246
   }
 ]
