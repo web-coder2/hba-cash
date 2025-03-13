@@ -17,6 +17,9 @@ class Grouped {
         for (let i = 0; i < this.fileData.length; i++) {
             let formatedDate = this.changeDateFormat(this.fileData[i]['date'])
 
+            let indexMounth = this.fileData[i]["date"].split('-')[1]
+            let mounths = ['January', 'February', 'March', "Aprel", "May", "June", "Jule", "Avgust", "September", "Octomber", "November", "December"]
+
             if (this.groupedData[formatedDate]) {
                 this.groupedData[formatedDate]['robot'] += this.fileData[i]['robot']
                 this.groupedData[formatedDate]['summHold'] += this.fileData[i]['summHold']
@@ -33,6 +36,8 @@ class Grouped {
             } else {
                 this.groupedData[formatedDate] = {
                     "date" : formatedDate,
+                    'mounthIDX': parseInt(indexMounth),
+                    'mounth': mounths[indexMounth - 1],
                     'robot' : this.fileData[i]['robot'],
                     'summHold' : this.fileData[i]['summHold'],
                     'diffHold' : this.fileData[i]['diffHold'],

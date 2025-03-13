@@ -54,7 +54,6 @@ function dataReader(dataFile) {
     let filePath = path.join(__dirname, dataFile)
     let fileData = fs.readFileSync(filePath, 'utf-8')
 
-
     let groupers = new grouped(JSON.parse(fileData))
 
     return [JSON.parse(fileData), groupers.grouper()]
@@ -76,6 +75,15 @@ app.get('/api/newData/', (req, res) => {
 app.post('/api/create', (req, res) => {
     let newData = new report(req.body.date, parseInt(req.body.robot), parseInt(req.body.summHold), parseInt(req.body.diffHold), parseInt(req.body.oklad), parseInt(req.body.office))
     newData.saveData()
+    res.sendStatus(200)
+})
+
+app.post('/api/createByFile', (req, res) => {
+    for (let i = 0; i < req.body.fullData.length; i++) {
+        //console.log(req.body.fullData[i])
+        let newData = new report(req.body.fullData[i]['date'], parseInt(req.body.fullData[i]['robot']), parseInt(req.body.fullData[i]['summHold']), parseInt(req.body.fullData[i]['diffHold']), parseInt(req.body.fullData[i]['oklad']), parseInt(req.body.fullData[i]['office']))
+        newData.saveData()
+    }
     res.sendStatus(200)
 })
 

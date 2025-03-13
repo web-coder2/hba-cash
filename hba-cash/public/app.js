@@ -33,8 +33,9 @@ let app = new Vue({
         allDataParams: [],
         paramName: 'office',
         paramNameNew: 'office',
+        dataFileJSON: [],
         chart: null,
-        chartNew: null
+        chartNew: null,
     },
     methods: {
         async created() {
@@ -63,6 +64,66 @@ let app = new Vue({
                 method: "GET",
                 headers: { 'Content-Type': 'application/json' }
             }).then(res => res.json()).then(data => this.data = data)
+        },
+        async fileDataCreate(dataObj) {
+            let response = await fetch('/api/create', {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dataObj)
+            })
+        },
+        handleFileChange(event) {
+            const file = event.target.files[0];
+      
+            if (file) {
+              const reader = new FileReader();
+      
+                reader.onload = (e) => {
+                    const jsonString = e.target.result;
+                    let jsonData = JSON.parse(jsonString);
+                    let fullJsonData = []
+
+                    //console.log(jsonData)
+
+                    for (let i = 0; i < jsonData.length; i++) {
+                        let dataArray = jsonData[i]['Дата'].split('.')
+
+                        if (dataArray[2].length == 2) {
+                            var formatDate = `20${dataArray[2]}-${dataArray[0]}-${dataArray[1]}`
+                        } else if (dataArray[2].length == 4) {
+                            var formatDate = `${dataArray[2]}-${dataArray[0]}-${dataArray[1]}`
+                        }
+
+                        let dataObj = {
+                            'date' : formatDate,
+                            'diffHold' : jsonData[i]['Сумма_HOLD_Разница'],
+                            'summHold' : jsonData[i]['Сумма_HOLD_Итого'],
+                            'office' : jsonData[i]['Офис'],
+                            'robot' : jsonData[i]['Робот'],
+                            'oklad' : jsonData[i]['Окладчики']
+                        }
+
+                        fullJsonData.push(dataObj)
+
+                        //console.log(dataObj)
+
+                    }
+
+                    console.log(fullJsonData)
+
+                    let response = fetch('/api/createByFile', {
+                        method: "POST",
+                        headers: {'Content-Type' : 'application/json'},
+                        body: JSON.stringify({"fullData": fullJsonData})
+                    })
+
+                    //console.log(jsonData)
+                };
+      
+              reader.readAsText(file);
+            } else {
+              console.log('huyaks')
+            }
         },
         async fetchGroupedData() {
             let response = await fetch('/api/groupedData', {

@@ -1,13 +1,13 @@
 [
   {
     "ladder": 0,
-    "trafic": 123123123,
-    "super": 123123
+    "trafic": 500,
+    "super": 500
   },
   {
-    "ladder": 123123,
-    "trafic": 123123,
-    "super": 213123
+    "ladder": 10000,
+    "trafic": 1000,
+    "super": 1000
   },
   {
     "ladder": 20000,
@@ -71,7 +71,7 @@
   },
   {
     "ladder": 200000,
-    "trafic": 20000123123123,
-    "super": 20000123123123
+    "trafic": 20000,
+    "super": 20000
   }
 ]
