@@ -13,13 +13,20 @@ let app = new Vue({
 		removeRow() {
 			this.rows -= 1
 		},
-		addGame() {
+		async addGame() {
 			let gameObj = {
 				"title" : this.title,
 				"gameInfo" : this.gameInfo,
 				"gameSrc" : this.gameSrc
 			}
+
 			console.log(gameObj)
+
+			let response = await fetch('/api/create', {
+				method: "POST",
+				headers: {'Content-Type' : 'applications/json'},
+				body: JSON.stringify({'gameObj' : gameObj})
+			})
 		}
 	}
 })
