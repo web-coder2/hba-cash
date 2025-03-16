@@ -18,7 +18,7 @@ const app = express()
 
 
 app.use(express.static(path.join(__dirname, 'views')))
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 
@@ -39,6 +39,19 @@ app.get('/create', (req, res) => {
 app.get('/games', (req, res) => {
 	let games = new getall
 	res.json(games.getAllGames())
+})
+
+app.get('/game/:title', (req, res) => {
+	//let title = req.params.title
+	//let games = new getall
+	res.sendFile(path.join(__dirname, 'views', 'game.html'))
+	//res.json(games.getByTitle(title))
+})
+
+app.get('/get/game/:title', (req, res) => {
+	let title = req.params.title 
+	let games = new getall 
+	res.json(games.getByTitle(title))
 })
 
 

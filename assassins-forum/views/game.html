@@ -37,20 +37,11 @@
 		  	</div>
 		</nav>
 
-
-		<div class="container-fluid mt-5">
-			<div class="form-group createGame">
-				<h3 class="text-center">create a new page assassins creed</h3>
-				<input class="form-control mt-5" placeholder="title of game" v-model="title">
-				<div class="mt-5" v-for="(item, idx) in rows">
-					<textarea class="form-control" rows="4" v-model="gameInfo[idx]"></textarea>
-					<input class="form-control mt-3" placeholder="link on screenshot" v-model="gameSrc[idx]">
-				</div>
-				<div class="mt-5">
-					<button class="btn btn-success" @click="addRow()">Add new row</button>
-					<button class="btn btn-danger" @click="removeRow()">Remove new row</button>
-					<button class="btn btn-warning" @click="addGame()">Add game</button>
-				</div>
+		<div class="container-fluid mt-5" v-if="gameData != null">
+			<h3 class="text-success ml-5">{{ gameData.title }}</h3>
+			<div v-for="(item, idx) in gameData.gameInfo">
+				<p class="text-primary">{{ gameData.gameInfo[idx] }}</p>
+				<img :src="gameData.gameSrc[idx]">
 			</div>
 		</div>
 
@@ -61,18 +52,41 @@
 </body>
 </html>
 
-<style type="text/css">
+<script>
+	
+	let app = new Vue({
+		el: "#app",
+		beforeMount() {
+			this.fetchAllGames()
+			this.getDataGame()
+		},
+		data: {
+			allGames: [],
+			loaded: false,
+			gameData: null,
+		},
+		methods: {
+			async fetchAllGames() {
+				this.loaded = false
+				let response = await fetch('/games', {
+					method: "GET",
+					headers: {'Content-Type': "application/json"},
+				}).then(res => res.json()).then(data => this.allGames = data)
 
-	.createGame {
-		width:  60vw;
-		margin-left: 20vw;
-	}
-
-	@media (max-width: 480px) {
-		.createGame {
-			width: 80vw;
-			margin-left: 10vw;
+				for (let i = 0; i < this.allGames.length; i++) {
+					this.allGames[i]['title'] = `/game/${this.allGames[i]['title']}`
+				}
+				this.loaded = true
+			},
+			async getDataGame() {
+				let route = "/get" + window.location.pathname
+				let response = await fetch(route, {
+					method: "GET",
+					headers: {'Content-Type' : 'application/json'}
+				}).then(res => res.json()).then(data => this.gameData = data)
+				console.log(this.gameData)
+			}
 		}
-	}
+	})
 
-</style>
+</script>

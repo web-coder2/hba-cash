@@ -25,13 +25,11 @@
 	      		<li class="nav-item"><a class="nav-link" href="/about">About</a></li>
 	      		<li class="nav-item"><a class="nav-link" href="/create">Create</a></li>
 
-	    		<li class="nav-item dropdown">
-      				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Все игры</a>
-		    		<div class="dropdown-menu bg-dark">
-				    	<a class="dropdown-item text-light" href="#">AC1</a>
-				        <a class="dropdown-item text-light" href="#">AC2</a>
-				        <a class="dropdown-item text-light" href="#">AC brotherhood</a>
-				    </div>
+	    		<li class="nav-item dropdown" v-if="loaded">
+	      			<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Все игры</a>
+			    	<div class="dropdown-menu bg-dark">
+					    <a class="dropdown-item text-light" v-for="(item, idx) in allGames" :href="item.title">{{ item.title }}</a>
+					</div>
 				</li>
 	    	</ul>
 	  	</div>
@@ -41,3 +39,32 @@
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 </body>
 </html>
+
+<script>
+	
+	let app = new Vue({
+		el: "#app",
+		mounted() {
+			this.fetchAllGames()
+		},
+		data: {
+			allGames: [],
+			loaded: false,
+		},
+		methods: {
+			async fetchAllGames() {
+				this.loaded = false
+				let response = await fetch('/games', {
+					method: "GET",
+					headers: {'Content-Type': "application/json"},
+				}).then(res => res.json()).then(data => this.allGames = data)
+
+				for (let i = 0; i < this.allGames.length; i++) {
+					this.allGames[i]['title'] = `/game/${this.allGames[i]['title']}`
+				}
+				this.loaded = true
+			}
+		}
+	})
+
+</script>
