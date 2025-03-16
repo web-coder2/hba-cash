@@ -12,32 +12,57 @@
 </head>
 <body>
 
-	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
-  		<a class="navbar-brand" href="/">Assassins-Forum</a>
+	<div id="app">
 
-	  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-	    	<span class="navbar-toggler-icon"></span>
-	  	</button>
+		<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+	  		<a class="navbar-brand" href="/">Assassins-Forum</a>
 
-	  	<div class="collapse navbar-collapse" id="collapsibleNavbar">
-	    	<ul class="navbar-nav">
-	    		<li class="nav-item"><a class="nav-link" href="/">Main</a></li>
-	      		<li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-	      		<li class="nav-item"><a class="nav-link" href="/create">Create</a></li>
+		  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+		    	<span class="navbar-toggler-icon"></span>
+		  	</button>
 
-	    		<li class="nav-item dropdown">
-      				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Все игры</a>
-		    		<div class="dropdown-menu bg-dark">
-				    	<a class="dropdown-item text-light" href="#">AC1</a>
-				        <a class="dropdown-item text-light" href="#">AC2</a>
-				        <a class="dropdown-item text-light" href="#">AC brotherhood</a>
-				    </div>
-				</li>
-	    	</ul>
-	  	</div>
-	</nav>
+		  	<div class="collapse navbar-collapse" id="collapsibleNavbar">
+		    	<ul class="navbar-nav">
+		    		<li class="nav-item"><a class="nav-link" href="/">Main</a></li>
+		      		<li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+		      		<li class="nav-item"><a class="nav-link" href="/create">Create</a></li>
 
+		    		<li class="nav-item dropdown">
+	      				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Все игры</a>
+			    		<div class="dropdown-menu bg-dark">
+					    	<a class="dropdown-item text-light" v-for="(item, idx) in allGames" :href="item.title">{{ item.title }}</a>
+					    </div>
+					</li>
+		    	</ul>
+		  	</div>
+		</nav>
+
+	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 </body>
 </html>
+
+
+<script>
+	
+	let app = new Vue({
+		el: "#app",
+		mounted() {
+			this.fetchAllGames()
+		},
+		data: {
+			allGames: []
+		},
+		methods: {
+			async fetchAllGames() {
+				let response = await fetch('/games', {
+					method: "GET",
+					headers: {'Content-Type': "application/json"},
+				}).then(res => res.json()).then(data => this.allGames = data)
+			}
+		}
+	})
+
+
+</script>

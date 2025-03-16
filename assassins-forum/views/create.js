@@ -24,7 +24,7 @@ let app = new Vue({
 
 			let response = await fetch('/api/create', {
 				method: "POST",
-				headers: {'Content-Type' : 'applications/json'},
+				headers: {'Content-Type' : 'application/json'},
 				body: JSON.stringify({'gameObj' : gameObj})
 			})
 		}

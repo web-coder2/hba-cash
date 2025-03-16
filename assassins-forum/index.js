@@ -9,6 +9,7 @@ const urlencoded = bodyParser.urlencoded({extended: false})
 // здесь я бууд импортировтаь модули свои прилоджения
 
 const creater = require(path.join(__dirname, 'models', 'create.js'))
+const getall = require(path.join(__dirname, 'models', 'getAll.js'))
 
 const PORT = 5000
 
@@ -17,7 +18,7 @@ const app = express()
 
 
 app.use(express.static(path.join(__dirname, 'views')))
-app.use(urlencoded)
+app.use(express.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
 
@@ -35,17 +36,19 @@ app.get('/create', (req, res) => {
 	res.sendFile(path.join(__dirname, 'views', 'create.html'))
 })
 
+app.get('/games', (req, res) => {
+	let games = new getall
+	res.json(games.getAllGames())
+})
 
 
 // а вот тут у меня будут POST запросы
 
 
 app.post('/api/create', (req, res) => {
-	let gameObj = JSON.parse(req.body.gameObj)
-	console.log(gameObj)
+	let newGame = new creater(req.body.gameObj)
+	newGame.saveData()
 	res.sendStatus(200)
-	//let newGame = new creater(gameObj)
-	//newGame.saveData()
 })
 
 

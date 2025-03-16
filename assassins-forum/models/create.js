@@ -4,20 +4,20 @@ const fs = require('fs')
 
 class Creater {
 
-	constructor(title, info, src) {
-		this.title = title  // string
-		this.info = info    // array
-		this.src = src      // array 
+	constructor(gameObj) {
+		this.gameObj = gameObj
 	}
 
 	saveData() {
 
-		let gameObj = {
-			'title' : this.title,
-			'info' : this.info,
-			'src' : this.src
-		}
-		console.log(gameObj)
+		//console.log(this.gameObj)
+
+		let gameDataPath = path.join(__dirname, '..', 'games.json')
+		let gameData = JSON.parse(fs.readFileSync(gameDataPath, 'utf-8'))
+		gameData.push(this.gameObj)
+		
+		let pushedGames = JSON.stringify(gameData, null, 2)
+		fs.writeFileSync(gameDataPath, pushedGames)
 	}
 
 }
