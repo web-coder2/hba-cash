@@ -102,6 +102,11 @@ app.get('/api/getLadder', (req, res) => {
     res.json(ladderDatas)
 })
 
+
+app.get('/table', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'table.html'))
+})
+
 app.post('/api/changeLadder', (req, res) => {
     testHuest = req.body["ladder"]
 
