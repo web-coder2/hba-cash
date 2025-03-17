@@ -4,7 +4,12 @@ const fs = require('fs')
 const path = require('path')
 const { PassThrough } = require('stream')
 const urlencoded = bodyParser.urlencoded({extended: false})
+const dotenv = require('dotenv')
 
+dotenv.config()
+
+const resedenceRoute = process.env.baseURL
+console.log(resedenceRoute)
 
 const report = require(path.join(__dirname, 'models', 'report.js'))
 const salary = require(path.join(__dirname, 'models', 'salary.js'))
