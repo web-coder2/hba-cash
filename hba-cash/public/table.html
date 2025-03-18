@@ -41,22 +41,8 @@
             <!-- Таблица с храениянми данных о холдах -->
             <div class="container-fluid mt-5" v-if="!loading">
                 <div class="table-responsive">
-                    <!-- <table class="table table-striped table-bordered table-hover table-dark">
-                        <thead class="thead-light">
-                            <tr>
-                                <th style="white-space: nowrap;">Дата</th>
-                                <th style="white-space: nowrap;" v-for="(item, idx) in week">{{ item }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(item, idx) in mokHold">
-                                <td style="white-space: nowrap;">Сумма холдов</td>
-                                <td style="white-space: nowrap;" v-for="(item2, idx2) in item">{{ item2 }}</td>
-                            </tr>
-                        </tbody>
-                    </table> -->
 
-                    <table class="table table-striped table-bordered table-hover table-dark" v-for="(table, tabIdx) in weeklyGroupedArray">
+                    <!-- <table class="table table-striped table-bordered table-hover table-dark" v-for="(table, tabIdx) in weeklyGroupedArray">
                         <thead class="thead-light">
                             <tr>
                                 <th style="white-space: nowrap;">Дата</th>
@@ -69,7 +55,7 @@
                                 <td style="white-space: nowrap;" v-for="(weekday, weekIdx) in table">{{ weekday.date.allHold }}</td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> -->
 
                     <table class="table table-striped table-bordered table-hover table-dark" v-for="(table, tabIdx) in weeklyGroupedArray">
                         <thead class="thead-light">
@@ -80,7 +66,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="(item, idx) in table">
-                                <th style="white-space: nowrap;">{{ item.date.weekday }}</th>
+                                <th style="white-space: nowrap;">{{ item.date.weekday }} <span class="text-info">{{ item.date.selfDay }}</span></th>
                                 <th style="white-space: nowrap;">{{ item.date.allHold }}</th>
                             </tr>
                         </tbody>
@@ -164,9 +150,10 @@
                         const existingEntry = groupedMap.get(dateStr);
                         existingEntry.date.allHold += holdValue;
                     } else {
-                        const weekday = dayjs(dateStr).format('dddd') + "-" + dateStr;
+                        const weekday = dayjs(dateStr).format('dddd');
                         groupedMap.set(dateStr, {
                             date: {
+                                selfDay: dateStr,
                                 allHold: holdValue,
                                 weekday: weekday
                             }
