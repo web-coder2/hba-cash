@@ -5,10 +5,14 @@ const path = require('path')
 const { PassThrough } = require('stream')
 const urlencoded = bodyParser.urlencoded({extended: false})
 const dotenv = require('dotenv')
+const dayjs = require('dayjs')
+const axios = require('axios')
 
 dotenv.config()
 
 const resedenceRoute = process.env.baseURL
+const residenceToken = process.env.residenceToken
+
 console.log(resedenceRoute)
 
 const report = require(path.join(__dirname, 'models', 'report.js'))
@@ -111,6 +115,42 @@ app.get('/api/getLadder', (req, res) => {
 app.get('/table', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'table.html'))
 })
+
+
+app.post('/table/getHold', async (req, res) => {
+    let startDate = req.body.startDate;
+    let endDate = req.body.endDate;
+
+    console.log(startDate, endDate);
+
+    async function getHolds(startDate, endDate) {
+        try {
+            const response = await axios.get(`${resedenceRoute}leads/?startedAt[]=gte:${startDate}&startedAt[]=lte:${endDate}`, {
+                params: {
+                    '_populate[]': ['userId', 'offerId'],
+                    '_page': 1,
+                    '_limit': 0,
+                    //'_sort': 'startedAt:desc'
+                },
+                headers: {
+                    'Authorization': `Bearer ${residenceToken}`
+                },
+            });
+            return response.data;
+        } catch (error) {
+            console.error("Ошибка при получении данных:", error);
+            res.status(500).json({ error: "Ошибка при получении данных" }); 
+            return null; 
+        }
+    }
+
+    const resulter = await getHolds(startDate, endDate);
+    console.log(resulter);
+
+    if (resulter) {
+        res.json(resulter);
+    }
+});
 
 app.post('/api/changeLadder', (req, res) => {
     testHuest = req.body["ladder"]

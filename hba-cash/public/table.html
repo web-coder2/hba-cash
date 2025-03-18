@@ -39,9 +39,9 @@
             
 
             <!-- Таблица с храениянми данных о холдах -->
-            <div class="container-fluid mt-5">
+            <div class="container-fluid mt-5" v-if="!loading">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover table-dark">
+                    <!-- <table class="table table-striped table-bordered table-hover table-dark">
                         <thead class="thead-light">
                             <tr>
                                 <th style="white-space: nowrap;">Дата</th>
@@ -54,7 +54,45 @@
                                 <td style="white-space: nowrap;" v-for="(item2, idx2) in item">{{ item2 }}</td>
                             </tr>
                         </tbody>
+                    </table> -->
+
+                    <table class="table table-striped table-bordered table-hover table-dark" v-for="(table, tabIdx) in weeklyGroupedArray">
+                        <thead class="thead-light">
+                            <tr>
+                                <th style="white-space: nowrap;">Дата</th>
+                                <th style="white-space: nowrap;" v-for="(weekday, weekIdx) in table">{{ weekday.date.weekday }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="white-space: nowrap;">Сумма холдов</td>
+                                <td style="white-space: nowrap;" v-for="(weekday, weekIdx) in table">{{ weekday.date.allHold }}</td>
+                            </tr>
+                        </tbody>
                     </table>
+
+                    <table class="table table-striped table-bordered table-hover table-dark" v-for="(table, tabIdx) in weeklyGroupedArray">
+                        <thead class="thead-light">
+                            <tr>
+                                <th style="white-space: nowrap;">Дата</th>
+                                <th style="white-space: nowrap;">Сумма Холдов</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, idx) in table">
+                                <th style="white-space: nowrap;">{{ item.date.weekday }}</th>
+                                <th style="white-space: nowrap;">{{ item.date.allHold }}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <div class="container-fluid mt-5 justify-content-center" v-if="loading">
+                <div class="d-flex align-items-center">
+                    <strong>Загрузка...</strong>
+                    <div class="spinner-border ml-auto text-success" role="status" aria-hidden="true"></div>
                 </div>
             </div>
 
@@ -71,13 +109,99 @@
         data: {
             startDate: "",
             endDate: "",
-            week: ['Понедельник', 'Вторник', 'Среда', 'Четерг', 'Пятница', 'Суббота', 'Воскресеье'],
-            mokHold: [[1000, 1200, 3220, 4440, 2300, 4440, 1220], [123, 222, 333, 4132, 5532, 1221, 3132]]
+            holdDataResp: null,
+            holdArray: [],
+            groupedArray: [],
+            weeklyGroupedArray: [],
+            loading: false,
         },
         methods: {
             async getHoldData() {
-                console.log(this.startDate, this.endDate)
-                // добавит запрос на сервис и получать через него данные 
+                console.log(this.startDate, this.endDate);
+
+                this.holdArray = []
+                this.groupedArray = []
+                this.weeklyGroupedArray = []
+                this.loading = true
+
+                try {
+                    const response = await fetch('/table/getHold', {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'startDate': this.startDate,
+                        'endDate': this.endDate
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+            
+                this.holdDataResp = await response.json();
+                console.log(this.holdDataResp);
+
+                for (let i = 0; i < this.holdDataResp.data.length; i++) {
+                    const item = this.holdDataResp.data[i]
+
+                    if (item.status == 'hold') {
+                        this.holdArray.push({
+                            'date' : dayjs(item.startedAt).format('YYYY-MM-DD'),
+                            'hold' : item.price?.offer ? item.price.offer : 0
+                        })
+                    }
+                }
+
+                const groupedMap = new Map();
+
+                for (const holdItem of this.holdArray) {
+                    const dateStr = holdItem.date;
+                    const holdValue = holdItem.hold;
+
+                    if (groupedMap.has(dateStr)) {
+                        const existingEntry = groupedMap.get(dateStr);
+                        existingEntry.date.allHold += holdValue;
+                    } else {
+                        const weekday = dayjs(dateStr).format('dddd') + "-" + dateStr;
+                        groupedMap.set(dateStr, {
+                            date: {
+                                allHold: holdValue,
+                                weekday: weekday
+                            }
+                        });
+                    }
+                }
+
+                this.groupedArray = Array.from(groupedMap.values());
+
+                console.log(this.groupedArray)
+
+                } catch (error) {
+                    console.error("Ошибка при получении данных:", error);
+                    this.holdDataResp = null;
+                }
+            
+                console.log(this.holdArray)
+
+                for (let i = 0; i < this.holdArray.length; i++) {
+                    if (this.groupedArray['date'] == this.holdArray[i] + '...' + this.holdArray[i].date) {
+                        this.groupedArray['date']['hold'] += this.holdArray[i]['hold']
+                    } else {
+                        //this.groupedArray.push(this.holdArray[i]['date'])
+                    }
+                }
+                console.log(this.groupedArray)
+
+                this.weeklyGroupedArray = [];
+                
+                for (let i = 0; i < this.groupedArray.length; i += 7) {
+                    this.weeklyGroupedArray.push(this.groupedArray.slice(i, i + 7));
+                }
+
+                console.log("Weekly Grouped Array:", this.weeklyGroupedArray);
+                this.loading = false
             }
         }
     })
