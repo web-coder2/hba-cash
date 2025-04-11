@@ -121,8 +121,6 @@ app.post('/table/getHold', async (req, res) => {
     let startDate = req.body.startDate;
     let endDate = req.body.endDate;
 
-    console.log(startDate, endDate);
-
     async function getHolds(startDate, endDate) {
         try {
             const response = await axios.get(`${resedenceRoute}leads/?startedAt[]=gte:${startDate}&startedAt[]=lte:${endDate}`, {
@@ -145,12 +143,70 @@ app.post('/table/getHold', async (req, res) => {
     }
 
     const resulter = await getHolds(startDate, endDate);
-    console.log(resulter);
+    //console.log(resulter);
 
     if (resulter) {
         res.json(resulter);
     }
 });
+
+
+app.post('/tableSalaryBonuses', async (req, res) => {
+
+    const startDate = req.body.startDate
+    const endDate = req.body.endDate
+    const apiQueryRoute = `${resedenceRoute}leads/salary/?startedAt[]=gte:${startDate}&startedAt[]=lte:${endDate}`
+
+    async function getData() {
+        try {
+            const response = await axios.get(apiQueryRoute, {
+                headers: {
+                    'Authorization': `Bearer ${residenceToken}`
+                }
+            })
+            return response.data
+        } catch (e) {
+            //console.log(e)
+        }
+    }
+
+    const response = await getData()
+    res.send(response)
+})
+
+app.post('/tableTraficInput', async (req, res) => {
+
+    const startDay = req.body.startDate
+    const endDay = req.body.endDate
+
+    const apiQueryRoute = `${resedenceRoute}leads/salary/?startedAt[]=gte:${startDay}&startedAt[]=lte:${endDay}`
+
+    async function getInputs() {
+        try {   
+            const response = await axios.get(apiQueryRoute, {
+                params : {
+                    _limit: 9007199254740991,
+                    _page: 1,
+                    _select: '_updatedAt datedAt phone new',
+                    _sort: 'datedAt:desc'
+                },
+                headers: {
+                    'Authorization': `Bearer ${residenceToken}`
+                }
+            })
+            return response
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const responseData = await getInputs()
+    const leadData = responseData.data
+
+    res.send({'allData' : leadData})
+
+})
+
 
 app.post('/api/changeLadder', (req, res) => {
     testHuest = req.body["ladder"]

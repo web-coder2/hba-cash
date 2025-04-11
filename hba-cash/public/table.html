@@ -34,7 +34,7 @@
                     <h3 class="text-light">Получить данные о холдах</h3>
                     <input type="date" class="form-control mt-3 bg-dark text-light" v-model="startDate" placeholder="start date">
                     <input type="date" class="form-control mt-3 bg-dark text-light" v-model="endDate" placeholder="end date">
-                    <button class="btn btn-outline-warning mt-3" @click="getHoldData()">Получить</button>
+                    <button class="btn btn-outline-warning mt-3" @click="getHoldData(); getSalaryBonuses()">Получить</button>
                 </div>
             </div>
             
@@ -82,10 +82,17 @@
                                 <th style="white-space: nowrap;" :style="{color: item.price.offer == 0 ? 'red' : 'white'}">{{ item.price.offer }}</th>
                                 <th style="white-space:  nowrap;">{{ item.status }}</th>
                             </tr>
+                            <tr>
+                               <th class="text-warning">Total</th>
+                               <th class="text-warning">Total</th> 
+                               <th class="text-danger">{{ allSummHold }}</th> 
+                               <th class="text-warning">Total</th> 
+                            </tr>
                         </tbody>
                     </table>
                 </div>
-                <h5 class="text-danger mt-3 mb-5" v-if="holdDataResp.length != 0 && !loading">Кол-во холдов с 0 за этот диапазон: <span class="text-primary">{{ zeroNumLead }}</span></h5>
+                <!-- <h5 class="text-danger mt-3 mb-5" v-if="holdDataResp.length != 0 && !loading">Кол-во холдов с 0 за этот диапазон: <span class="text-primary">{{ zeroNumLead }}</span></h5> -->
+
             </div>
 
             <div class="container-fluid mt-5 justify-content-center" v-if="loading">
@@ -125,16 +132,21 @@
             weeklyGroupedArray: [],
             zeroNumLead: 0,
             loading: false,
+            allSummHold: 0,
+            totalBrokerSalary: 0,
+            totalBrokerBonuses: 0,
+            dataResponse: null,
+            getterInputs: null,
         },
         methods: {
             async getHoldData() {
-                console.log(this.startDate, this.endDate);
 
                 this.holdArray = []
                 this.groupedArray = []
                 this.weeklyGroupedArray = []
                 this.zeroNumLead = 0
                 this.loading = true
+                this.allSummHold = 0
 
                 try {
                     const response = await fetch('/table/getHold', {
@@ -162,6 +174,7 @@
                             'date' : dayjs(item.startedAt).format('YYYY-MM-DD'),
                             'hold' : item.price?.offer ? item.price.offer : 0
                         })
+                        this.allSummHold += item.price?.offer ? item.price.offer : 0
                     }
                 }
 
@@ -191,9 +204,6 @@
 
                 this.groupedArray = Array.from(groupedMap.values());
 
-                //console.log(this.groupedArray)
-                //console.log(this.holdArray)
-
                 } catch (error) {
                     console.error("Ошибка при получении данных:", error);
                     this.holdDataResp = null;
@@ -203,13 +213,8 @@
                     if (this.groupedArray['date'] == this.holdArray[i] + '...' + this.holdArray[i].date) {
                         this.groupedArray['date']['hold'] += this.holdArray[i]['hold']
                         this.groupedArray['date']['numDayLeads'] += 1
-                        //this.groupedArray['date']['numDayLeads']++
-                    } else {
-                        //this.groupedArray.push(this.holdArray[i]['date'])
                     }
                 }
-
-                console.log(this.groupedArray)
 
                 this.weeklyGroupedArray = [];
                 
@@ -229,6 +234,51 @@
                 }
 
                 this.loading = false
+            },
+            async getSalaryBonuses() {
+
+                this.totalBrokerBonuses = 0
+                this.totalBrokerSalary = 0
+                this.getterInputs = null
+
+
+                // получение зарплаты и бонусов
+
+                const response = await fetch('/tableSalaryBonuses', {
+                    method : "POST",
+                    headers : {
+                        'Content-Type' : 'application/json'
+                    },
+                    body : JSON.stringify({
+                        "startDate" : this.startDate,
+                        "endDate" : this.endDate
+                    })
+                }).then(data => data.json()).then(resp => this.dataResponse = resp)
+
+                // получение входов (лиды с трафика)
+
+                const responseInputs = await fetch('/tableTraficInput', {
+                    method : "POST",
+                    headers : {
+                        'Content-Type' : 'application/json'
+                    },
+                    body : JSON.stringify({
+                        "startDate" : this.startDate,
+                        "endDate" : this.endDate
+                    })
+                }).then(data => data.json()).then(resp => this.getterInputs = resp)
+
+                console.log(this.getterInputs)
+
+                let pathToBroker = this.dataResponse.data.brokers
+
+                for (let i = 0; i < pathToBroker.length; i++) {
+                    this.totalBrokerSalary += pathToBroker[i].total.hold.sum
+                    this.totalBrokerBonuses += pathToBroker[i].bonuses
+                }
+
+
+                this.totalBrokerSalary = (this.totalBrokerSalary / 50 * 65) + (this.totalBrokerSalary  * 0.2) + this.totalBrokerBonuses + 2000
             }
         }
     })
