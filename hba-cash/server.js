@@ -179,17 +179,12 @@ app.post('/tableTraficInput', async (req, res) => {
     const startDay = req.body.startDate
     const endDay = req.body.endDate
 
-    const apiQueryRoute = `${resedenceRoute}leads/salary/?startedAt[]=gte:${startDay}&startedAt[]=lte:${endDay}`
+    //const apiQueryRoute = `${resedenceRoute}mailings/leads/?startedAt[]=gte:${startDay}&startedAt[]=lte:${endDay}`
+    const apiQueryRoute = `${resedenceRoute}mailings/leads/?_populate[]=userId&_populate[]=pipelineId&_limit=9007199254740991&_page=1&_select=_updatedAt+datedAt+phone+new&_sort=datedAt:desc&datedAt[]=gte:${startDay}&datedAt[]=lte:${endDay}`
 
     async function getInputs() {
         try {   
             const response = await axios.get(apiQueryRoute, {
-                params : {
-                    _limit: 9007199254740991,
-                    _page: 1,
-                    _select: '_updatedAt datedAt phone new',
-                    _sort: 'datedAt:desc'
-                },
                 headers: {
                     'Authorization': `Bearer ${residenceToken}`
                 }
