@@ -155,7 +155,7 @@ app.post('/tableSalaryBonuses', async (req, res) => {
 
     const startDate = req.body.startDate
     const endDate = req.body.endDate
-    const apiQueryRoute = `${resedenceRoute}leads/salary/?startedAt[]=gte:${startDate}&startedAt[]=lte:${endDate}`
+    const apiQueryRoute = `${resedenceRoute}leads/salary/?_page=1&_limit=100000&startedAt[]=gte:${startDate}&startedAt[]=lte:${endDate}`
 
     async function getData() {
         try {
@@ -166,7 +166,7 @@ app.post('/tableSalaryBonuses', async (req, res) => {
             })
             return response.data
         } catch (e) {
-            //console.log(e)
+            console.log(e)
         }
     }
 
@@ -174,12 +174,40 @@ app.post('/tableSalaryBonuses', async (req, res) => {
     res.send(response)
 })
 
+
+app.post('/tableGetBonuses', async (req, res) => {
+
+    const startDate = req.body.startDate
+    const endDate = req.body.endDate
+
+    const apiQueryRoute = `https://residence.hbnetwork.ru/api/bonuses/?_page=1&_limit=100000&datedAt[]=gte:${startDate}&datedAt[]=lte:${endDate}`
+
+    async function getBonuses() {
+        try {
+            const response = await axios.get(apiQueryRoute, {
+                headers: {
+                    'Authorization': `Bearer ${residenceToken}`
+                }
+            })
+            return response
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    let responseBonusesData = await getBonuses()
+
+    console.log(responseBonusesData.data.data)
+
+    res.send(responseBonusesData.data.data)
+
+})
+
 app.post('/tableTraficInput', async (req, res) => {
 
     const startDay = req.body.startDate
     const endDay = req.body.endDate
 
-    //const apiQueryRoute = `${resedenceRoute}mailings/leads/?startedAt[]=gte:${startDay}&startedAt[]=lte:${endDay}`
     const apiQueryRoute = `${resedenceRoute}mailings/leads/?_populate[]=userId&_populate[]=pipelineId&_limit=9007199254740991&_page=1&_select=_updatedAt+datedAt+phone+new&_sort=datedAt:desc&datedAt[]=gte:${startDay}&datedAt[]=lte:${endDay}`
 
     async function getInputs() {
@@ -196,9 +224,15 @@ app.post('/tableTraficInput', async (req, res) => {
     }
 
     const responseData = await getInputs()
-    const leadData = responseData.data
+    const leadData = responseData.data.data
+    let brokerPrice = 0
 
-    res.send({'allData' : leadData})
+    leadData.forEach((e) => {
+        let leadPrice = e.price
+        brokerPrice += leadPrice
+    })
+
+    res.send({'brokerPrice' : brokerPrice, 'fullData' : leadData})
 
 })
 
