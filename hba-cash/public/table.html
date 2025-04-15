@@ -33,15 +33,16 @@
                     <h3 class="text-light">Получить данные о холдах</h3>
                     <input type="date" class="form-control mt-3 bg-dark text-light" v-model="startDate" placeholder="start date">
                     <input type="date" class="form-control mt-3 bg-dark text-light" v-model="endDate" placeholder="end date">
+                    <input type="number" class="form-control mt-3 bg-dark text-light" min="0" placeholder="сколько прибавить" v-model="numToSalary">
                     <button class="btn btn-outline-warning mt-3" @click="getAllData()">Получить</button>
                 </div>
             </div>
             
             <div class="container-fluid mt-5" v-if="!loading">
-                <h4 class="text-warning" v-if="allBrokerSalary !== null">Общая Зарплата брокерам - <span class="text-success">{{ allBrokerSalary }}</span> за даты <span class="text-success">{{ startDate }} - {{ endDate }}</span></h4>
+                <!-- <h4 class="text-warning" v-if="allBrokerSalary !== null">Общая Сумма холдов брокерам - <span class="text-success">{{ allBrokerSalary }}</span> за даты <span class="text-success">{{ startDate }} - {{ endDate }}</span></h4>
                 <h4 class="text-warning" v-if="allBrokerPrice !== null">Общие Входы у брокеров - <span class="text-success">{{ allBrokerPrice }}</span> за даты <span class="text-success">{{ startDate }} - {{ endDate }}</span></h4>
                 <h4 class="text-warning mb-5" v-if="allBrokerBonuses !== null">Общие бонусы у брокеров - <span class="text-success">{{ allBrokerBonuses }}</span> за даты <span class="text-success">{{ startDate }} - {{ endDate }}</span></h4>
-                <h4 class="text-warning mb-5" v-if="!loading">Сума всех холдов: <span class="text-success">{{ allSummHold }}</span></h4>
+                <h4 class="text-warning mb-5" v-if="!loading">Сума всех холдов: <span class="text-success">{{ allSummHold }}</span></h4> -->
 
 
                 <div class="table-responsive" v-if="!loading">
@@ -60,15 +61,15 @@
                                 <th class="text-success">{{ item.date }} <span class="text-light">({{ returnDayWeek(item.date) }})</span></th>
                                 <th>{{ item.hold }}</th>
                                 <th v-if="editedMinusesArray[idx]">{{ editedMinusesArray[idx].price }}</th>
-                                <th v-if="bonusesArray[idx]"><span class="text-warning">{{ bonusesArray[idx].datedAt }}</span> {{ bonusesArray[idx].value }}</th>
+                                <th v-if="bonusesArray[idx]"><span class="text-success">{{ bonusesArray[idx].datedAt }}</span> {{ bonusesArray[idx].value }}</th>
                                 <th v-if="bonusesArray[idx]">{{ calculateSalary(item.hold, editedMinusesArray[idx].price, bonusesArray[idx].value) }}</th>
                             </tr>
                             <tr>
-                                <th class="text-warning">{{ startDate }} <span class="text-success">-</span> {{ endDate }}</th>
-                                <th class="text-success">{{ returnTotalValus(tableDataArray, 'hold') }}</th>
-                                <th class="text-success" v-if="editedMinusesArray"><span class="text-warning">Total:</span> {{ returnTotalValus(editedMinusesArray, 'price') }}</th>
-                                <th class="text-success" v-if="bonusesArray">{{ returnTotalValus(bonusesArray, 'value') }}</th>
-                                <th class="text-success" v-if="bonusesArray"><span class="text-warning">Total:</span> {{ calculateSalary(returnTotalValus(tableDataArray, 'hold'), returnTotalValus(editedMinusesArray, 'price'), returnTotalValus(bonusesArray, 'value')) }}</th>
+                                <th class="text-success">{{ startDate }} <span class="text-light">-</span> {{ endDate }}</th>
+                                <th class="text-light"><span class="text-success">Total:</span> {{ returnTotalValus(tableDataArray, 'hold') }}</th>
+                                <th class="text-light" v-if="editedMinusesArray"><span class="text-success">Total:</span> {{ returnTotalValus(editedMinusesArray, 'price') }}</th>
+                                <th class="text-light" v-if="bonusesArray"><span class="text-success">Total:</span> {{ returnTotalValus(bonusesArray, 'value') }}</th>
+                                <th class="text-light" v-if="bonusesArray"><span class="text-success">Total:</span> {{ calculateSalary(returnTotalValus(tableDataArray, 'hold'), returnTotalValus(editedMinusesArray, 'price'), returnTotalValus(bonusesArray, 'value')) }}</th>
                             </tr>
                         </tbody>
                     </table>

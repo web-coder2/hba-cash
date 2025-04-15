@@ -18,6 +18,7 @@ let app = new Vue ({
     data: {
         startDate: dayjs(new Date).format('YYYY-MM-DD'),
         endDate: dayjs(new Date).format('YYYY-MM-DD'),
+        numToSalary: 4000,
         loading: false,
 
         totalBrokerSalary: null,
@@ -89,7 +90,7 @@ let app = new Vue ({
 
             let sumSalary = this.brokersArray.hold.sum
 
-            this.allBrokerSalary = (sumSalary / 50 * 65) + (sumSalary * 0.2) + this.allBrokerBonuses + 2000 - this.allBrokerPrice
+            this.allBrokerSalary = (sumSalary / 50 * 65) + (sumSalary * 0.2) + this.allBrokerBonuses + this.numToSalary - this.allBrokerPrice
 
         },
         async getMinuses() {
@@ -141,7 +142,7 @@ let app = new Vue ({
             this.bonusesArray = aggregateData(this.bonusesArray, 'datedAt', 'value')
         },
         calculateSalary(hold, price, bonuses) {
-            return ( (hold / 50 * 65) + (hold * 0.2) + 2000 - price + bonuses )
+            return ( (hold / 50 * 65) + (hold * 0.2) + parseInt(this.numToSalary) - price + bonuses )
         },
         returnDayWeek(itemDay){
             return dayjs(itemDay).format('dddd')
