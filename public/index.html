@@ -10,7 +10,7 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <title>HBA-Cash</title>
     </head>
-    <body>
+    <body style="background-color: black;">
         <div id="app">
 
             <nav class="navbar navbar-expand-md bg-dark navbar-dark">
@@ -29,31 +29,31 @@
 
             <div class="container-fluid mt-5">
                 <div class="form-inline">
-                    <input required type="date" class="form-control mb-2 mr-sm-2" placeholder="Дата" v-model="createData.date">
-                    <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Робот" v-model="createData.robot">
-                    <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Сумма холдов" v-model="createData.summHold">
-                    <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Разница холдов" v-model="createData.diffHold">
-                    <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Оклад" v-model="createData.oklad">
-                    <input type="number" class="form-control mb-2 mr-sm-2" placeholder="Оффис" v-model="createData.office">
-                    <button class="btn btn-dark mb-2" @click="created()">Добавить данные</button>
+                    <input required type="date" class="form-control mb-2 mr-sm-2 bg-dark text-light" placeholder="Дата" v-model="createData.date">
+                    <input type="number" class="form-control mb-2 mr-sm-2 bg-dark text-light" placeholder="Робот" v-model="createData.robot">
+                    <input type="number" class="form-control mb-2 mr-sm-2 bg-dark text-light" placeholder="Сумма холдов" v-model="createData.summHold">
+                    <input type="number" class="form-control mb-2 mr-sm-2 bg-dark text-light" placeholder="Разница холдов" v-model="createData.diffHold">
+                    <input type="number" class="form-control mb-2 mr-sm-2 bg-dark text-light" placeholder="Оклад" v-model="createData.oklad">
+                    <input type="number" class="form-control mb-2 mr-sm-2 bg-dark text-light" placeholder="Оффис" v-model="createData.office">
+                    <button class="btn btn-warning mb-2" @click="created()">Добавить данные</button>
                 </div>
             </div>
 
             <div class="container-fluid mt-5">
-                <h2 class="text-dark">Изменить Оклад по умолчанию</h2>
+                <h2 class="text-light">Изменить Оклад по умолчанию</h2>
                 <div class="form-inline mt-3">
-                    <input v-model="superOklad" class="form-control mb-2 mr-sm-2" placeholder="Оклад супервайзера">
-                    <input v-model="traficOklad" class="form-control mb-2 mr-sm-2" placeholder="Оклад трафик-мена">
-                    <button class="btn btn-dark mb-2" disabled>Изменить данные</button>
+                    <input v-model="superOklad" class="form-control mb-2 mr-sm-2 bg-dark text-light" placeholder="Оклад супервайзера">
+                    <input v-model="traficOklad" class="form-control mb-2 mr-sm-2 bg-dark text-light" placeholder="Оклад трафик-мена">
+                    <button class="btn btn-warning mb-2" disabled>Изменить данные</button>
                 </div>
             </div>
 
             <div class="container-fluid mt-5">
-                <h2 class="text-dark">Изменить Лестницу</h2>
+                <h2 class="text-light">Изменить Лестницу</h2>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-small table-dark">
-                        <thead class="thead-light">
-                            <tr class="thead-light">
+                        <thead class="bg-danger text-light">
+                            <tr>
                                 <th>Лестница</th>
                                 <th>Супервайзер</th>
                                 <th>Трафик-мен</th>
@@ -61,21 +61,21 @@
                         </thead>
                         <tbody>
                             <tr v-for="(item, idx) in ladder">
-                                <th><input class="form-control" type="number" v-model="item['ladder']"></th>
-                                <th><input class="form-control" type="number" v-model="item['super']"></th>
-                                <th><input class="form-control" type="number" v-model="item['trafic']"></th>
+                                <th><input class="form-control bg-dark text-light" type="number" v-model="item['ladder']"></th>
+                                <th><input class="form-control bg-dark text-light" type="number" v-model="item['super']"></th>
+                                <th><input class="form-control bg-dark text-light" type="number" v-model="item['trafic']"></th>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <button class="btn btn-dark" @click="testNahuy()">Применить</button>
+                <button class="btn btn-warning" @click="testNahuy()">Применить</button>
             </div>
 
             <div class="container-fluid mt-5">
-                <h2 class="text-dark">Все данные по новой системе</h2>
+                <h2 class="text-light mt-5">Все данные по новой системе</h2>
                 <div class="table-responsive" style="height: 300px; overflow-y: auto;">
                     <table class="table table-striped table-bordered table-hover table-dark">
-                        <thead class="thead-light" style="position: sticky; top: 0px;">
+                        <thead class="bg-primary text-light" style="position: sticky; top: 0px;">
                             <tr style="white-space: nowrap;">
                                 <th>Дата</th>
                                 <th>Робот</th>
@@ -89,7 +89,7 @@
                                 <th>Общая прибыль</th>
                                 <th>Зарплата супервайзера</th>
                                 <th>Зарплата трафик-мена</th>
-                                <th style="border-left: solid 6px black;">Всего</th>
+                                <th style="border-left: solid 3px black;">Всего</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -106,7 +106,7 @@
                                 <td>{{ item.officeSalary }}</td>
                                 <td>{{ item.superxSalary }}</td>
                                 <td>{{ item.trafixSalary }}</td>
-                                <td style="border-left: solid 6px black;" :class="{'bg-danger text-light' : item.total < 0, 'bg-success text-light' : item.total > 0, 'bg-warning text-light' : item.total == 0}">{{ item.total }}</td>
+                                <td style="border-left: solid 3px black;" :class="{'bg-danger text-light' : item.total < 0, 'bg-success text-light' : item.total > 0, 'bg-warning text-light' : item.total == 0}">{{ item.total }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -114,10 +114,10 @@
             </div>
 
             <div class="container-fluid mt-5">
-                <h2 class="text-dark">Сгруппированые данные по новой системе</h2>
+                <h2 class="text-light">Сгруппированые данные по новой системе</h2>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover table-dark">
-                        <thead class="thead-light">
+                        <thead class="bg-primary text-light">
                             <tr>
                                 <th style="white-space: nowrap;">Дата</th>
                                 <th style="white-space: nowrap;">Робот</th>
@@ -131,7 +131,7 @@
                                 <th style="white-space: nowrap;">Общая прибыль</th>
                                 <th style="white-space: nowrap;">Зарплата супервайзера</th>
                                 <th style="white-space: nowrap;">Зарплата трафик-мена</th>
-                                <th style="white-space: nowrap; border-left: solid 6px black;">Всего</th>
+                                <th style="white-space: nowrap; border-left: solid 3px black;">Всего</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -148,7 +148,7 @@
                                 <td>{{ item.officeSalary }}</td>
                                 <td>{{ item.superxSalary }}</td>
                                 <td>{{ item.trafixSalary }}</td>
-                                <td style="border-left: solid 6px black;" :class="{'bg-danger text-light' : item.total < 0, 'bg-success text-light' : item.total > 0, 'bg-warning text-light' : item.total == 0}">{{ item.total }}</td>
+                                <td style="border-left: solid 3px black;" :class="{'bg-danger text-light' : item.total < 0, 'bg-success text-light' : item.total > 0, 'bg-warning text-light' : item.total == 0}">{{ item.total }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -157,11 +157,11 @@
 
             <div class="container-fluid mt-5">
                 <div class="container-fluid">
-                    <h2 class="text-dark">Выбери параметр для оси OY по новой системе</h2>
-                    <select class="chartBTN form-control" v-model="paramNameNew">
+                    <h2 class="text-light">Выбери параметр для оси OY по новой системе</h2>
+                    <select class="chartBTN form-control bg-dark text-light" v-model="paramNameNew">
                         <option v-for="(item) in allDataParams" :value="item">{{ item }}</option>
                     </select>
-                    <button class="chartBTN btn btn-dark mt-3" @click="createChartNew(getAllValueParamsNew('date'), getAllValueParamsNew(paramNameNew))">Применить</button>
+                    <button class="chartBTN btn btn-warning mt-3" @click="createChartNew(getAllValueParamsNew('date'), getAllValueParamsNew(paramNameNew))">Применить</button>
                 </div>
                 <div class="mt-5">
                     <canvas ref="chartDivNew"></canvas>
@@ -171,10 +171,10 @@
 
 
             <div class="container-fluid mt-5">
-                <h2 class="text-dark">Все данные по старой системе</h2>
+                <h2 class="text-light">Все данные по старой системе</h2>
                 <div class="table-responsive" style="height: 300px; overflow-y: auto;">
                     <table class="table table-striped table-bordered table-hover table-dark">
-                        <thead class="thead-light" style="position: sticky; top: 0px;">
+                        <thead class="bg-danger text-light" style="position: sticky; top: 0px;">
                             <tr>
                                 <th style="white-space: nowrap;">Дата</th>
                                 <th style="white-space: nowrap;">Робот</th>
@@ -213,10 +213,10 @@
             </div>
 
             <div class="container-fluid mt-5">
-                <h2 class="text-dark">Сгруппированые данные по старой системе</h2>
+                <h2 class="text-light">Сгруппированые данные по старой системе</h2>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover table-dark">
-                        <thead class="thead-light">
+                        <thead class="bg-danger text-light">
                             <tr>
                                 <th style="white-space: nowrap;">Дата</th>
                                 <th style="white-space: nowrap;">Робот</th>
@@ -256,23 +256,23 @@
 
             <div class="container-fluid mt-5">
                 <div class="container-fluid">
-                    <h2 class="text-dark">Выбери параметр для оси OY по старой системе</h2>
-                    <select class="chartBTN form-control" v-model="paramName">
+                    <h2 class="text-light">Выбери параметр для оси OY по старой системе</h2>
+                    <select class="chartBTN form-control bg-dark text-light" v-model="paramName">
                         <option v-for="(item) in allDataParams" :value="item">{{ item }}</option>
                     </select>
-                    <button class="chartBTN btn btn-dark mt-3" @click="createChart(getAllValueParams('date'), getAllValueParams(paramName))">Применить</button>
+                    <button class="chartBTN btn btn-warning mt-3" @click="createChart(getAllValueParams('date'), getAllValueParams(paramName))">Применить</button>
                 </div>
                 <div class="mt-5">
                     <canvas ref="chartDiv"></canvas>
                 </div>
             </div>
 
-            <div class="container-fluid mt-5 mb-5">
+            <!-- <div class="container-fluid mt-5 mb-5">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" @change="handleFileChange" id="customFile" accept=".json">
+                    <input type="file" class="bg-dark text-light" @change="handleFileChange" id="customFile" accept=".json">
                     <label class="custom-file-label" for="customFile">Выбрать дата-файл.json</label>
                 </div>
-            </div>
+            </div> -->
     
         </div>
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>

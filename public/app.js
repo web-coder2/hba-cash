@@ -200,16 +200,16 @@ let app = new Vue({
               labels: arrayDateValues,
               datasets: [
                 {
-                    pointBackgroundColor: 'rgb(0, 0, 0)',
+                    pointBackgroundColor: 'rgb(147, 32, 32)',
                     hoverOffset: 20,
                     fillColor: 'rgba(0, 0, 0, 1)',
                     fill: true,
-                    borderColor: "rgba(0, 0, 0, 0.8)",
+                    borderColor: "rgba(109, 22, 22, 0.7)",
                     pointRadius: 5,
                     pointHoverRadius: 10,
                     tension: 0.5,
                     data: arrayValuesParams,
-                    backgroundColor: "rgba(0, 0, 0, 0.6)"
+                    backgroundColor: "rgba(100, 48, 167, 0.34)"
                 },
               ],
             };
@@ -252,16 +252,16 @@ let app = new Vue({
               labels: arrayDateValues,
               datasets: [
                 {
-                    pointBackgroundColor: 'rgb(0, 0, 0)',
+                    pointBackgroundColor: 'rgb(147, 32, 32)',
                     hoverOffset: 20,
                     fillColor: 'rgba(0, 0, 0, 1)',
                     fill: true,
-                    borderColor: "rgba(0, 0, 0, 0.8)",
+                    borderColor: "rgba(109, 22, 22, 0.7)",
                     pointRadius: 5,
                     pointHoverRadius: 10,
                     tension: 0.5,
                     data: arrayValuesParams,
-                    backgroundColor: "rgba(0, 0, 0, 0.6)"
+                    backgroundColor: "rgba(100, 48, 167, 0.34)"
                 },
               ],
             };
