@@ -12,6 +12,19 @@ function aggregateData (data, dateParam, param) {
     }, []);
 }
 
+function aggregateManyData (data, dateParam, param, param2) {
+    return data.reduce((acc, curr) => {
+        const existing = acc.find(item => item[dateParam] === curr[dateParam]);
+        if (existing) {
+            existing[param] += curr[param]
+            existing[param2] += curr[param2]
+        } else {
+            acc.push({ ...curr });
+        }
+        return acc;
+    }, []);
+}
+
 
 let app = new Vue ({
     el : "#app",
@@ -56,22 +69,27 @@ let app = new Vue ({
                 })
             }).then(resp => resp.json()).then(respData => this.holdArray = respData.data)
 
+            console.log(this.holdArray)
+
             this.holdArray.forEach((e) => {
 
                 let date = dayjs(e._createdAt).format('YYYY-MM-DD')
                 let status = e.status
                 let hold = e.price?.offer ? e.price.offer : 0
+                let pay = e.price?.paid ? e.price.paid :  0
 
                 if (status === 'hold') {
                     this.tableDataArray.push({
                         'date' : date,
                         'hold' : hold,
+                        'pay' : pay,
                     })
                     this.allSummHold += hold
                 }
-                this.tableDataArray = aggregateData(this.tableDataArray, 'date', 'hold')
-            })
+                this.tableDataArray = aggregateManyData(this.tableDataArray, 'date', 'hold', 'pay')
+            })  
 
+            console.log(this.tableDataArray)
             this.loading = false
         },
         async getBrokerSalary() {

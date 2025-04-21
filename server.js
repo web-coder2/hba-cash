@@ -13,8 +13,6 @@ dotenv.config()
 const resedenceRoute = process.env.baseURL
 const residenceToken = process.env.residenceToken
 
-console.log(resedenceRoute)
-
 const report = require(path.join(__dirname, 'models', 'report.js'))
 const salary = require(path.join(__dirname, 'models', 'salary.js'))
 const grouped = require(path.join(__dirname, 'models', 'grouped.js'))
@@ -89,7 +87,6 @@ app.post('/api/create', (req, res) => {
 
 app.post('/api/createByFile', (req, res) => {
     for (let i = 0; i < req.body.fullData.length; i++) {
-        //console.log(req.body.fullData[i])
         let newData = new report(req.body.fullData[i]['date'], parseInt(req.body.fullData[i]['robot']), parseInt(req.body.fullData[i]['summHold']), parseInt(req.body.fullData[i]['diffHold']), parseInt(req.body.fullData[i]['oklad']), parseInt(req.body.fullData[i]['office']))
         newData.saveData()
     }
@@ -143,7 +140,6 @@ app.post('/table/getHold', async (req, res) => {
     }
 
     const resulter = await getHolds(startDate, endDate);
-    //console.log(resulter);
 
     if (resulter) {
         res.json(resulter);
@@ -197,10 +193,7 @@ app.post('/tableGetBonuses', async (req, res) => {
 
     let responseBonusesData = await getBonuses()
 
-    console.log(responseBonusesData.data.data)
-
     res.send(responseBonusesData.data.data)
-
 })
 
 app.post('/tableTraficInput', async (req, res) => {
