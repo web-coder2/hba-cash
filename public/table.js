@@ -49,6 +49,8 @@ let app = new Vue ({
         bonusesArray: [],
 
         tableDataArray: [],
+        usersData: [],
+        usersDataShow: false,
     },
     methods: {
         async getHoldData() {
@@ -172,11 +174,36 @@ let app = new Vue ({
             })
             return paramValue
         },
+        async getUsersSkorozvon() {
+            const result = await fetch('/skorozvon/get/users', {
+                method: "GET",
+                headers : {
+                    'Content-Type' : 'application/json'
+                }
+            }).then(response => response.json()).then(data => this.usersData = data.usersData)
+            console.log(this.usersData)
+        },
+        async getCallsSkorozvon() {
+            const result = await fetch('/skorozvon/get/calls', {
+                method: "GET",
+                headers : {
+                    'Content-Type' : 'application/json'
+                }
+            }).then(response => response.json()).then(data => this.callsData = data.callsData)
+            console.log(this.callsData)
+        },
+        changeUserDataShow() {
+            this.usersDataShow =! this.usersDataShow
+        },
         async getAllData() {
             await this.getHoldData()
             await this.getBrokerSalary()
             await this.getMinuses()
             await this.getBonuses()
         }
+    },
+    async beforeMount() {
+        await this.getUsersSkorozvon()
+        await this.getCallsSkorozvon()
     }
 })

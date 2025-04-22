@@ -54,7 +54,8 @@
                                 <th style="white-space: npwrap;">Сумма ЗП</th>
                                 <th style="white-space: nowrap;">Сума входов за этот день (минус за входы)</th>
                                 <th style="white-space: nowrap;">Сума бонусов в этот день</th>
-                                <th style="white-space:  nowrap;">сума зп тото тото</th>
+                                <!-- <th style="white-space:  nowrap;">сума зп тото тото</th> -->
+                                <th style="white-space:  nowrap;">сума зп брокеров</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,6 +78,28 @@
                         </tbody>
                     </table>
                 </div>
+
+                <button @click="changeUserDataShow()" class="btn btn-outline-warning">{{ usersDataShow ? 'скрыть' : 'показать' }} юзеров</button>
+
+                <div class="table-responsive mt-5" v-if="usersDataShow">
+                    <table class="table table-striped table-bordered table-hover table-dark">
+                        <thead class="bg-warning text-light">
+                            <tr>
+                                <th style="white-space: nowrap;">id</th>
+                                <th style="white-space: nowrap;">email</th>
+                                <th style="white-space: nowrap;">name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in usersData">
+                                <th>{{ item.id }}</th>
+                                <th>{{ item.email }}</th>
+                                <th class="text-warning">{{ item.name }}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
 
 
