@@ -51,9 +51,9 @@
                             <tr>
                                 <th style="white-space: nowrap;">Дата</th>
                                 <th style="white-space: nowrap;">Сумма холдов</th>
-                                <th style="white-space: npwrap;">Сумма ЗП</th>
+                                <!-- <th style="white-space: npwrap;">Сумма ЗП</th>
                                 <th style="white-space: nowrap;">Сума входов за этот день (минус за входы)</th>
-                                <th style="white-space: nowrap;">Сума бонусов в этот день</th>
+                                <th style="white-space: nowrap;">Сума бонусов в этот день</th> -->
                                 <!-- <th style="white-space:  nowrap;">сума зп тото тото</th> -->
                                 <th style="white-space:  nowrap;">сума зп брокеров</th>
                             </tr>
@@ -62,24 +62,24 @@
                             <tr v-for="(item, idx) in tableDataArray" v-if="!loading">
                                 <th class="text-success">{{ item.date }} <span class="text-light">({{ returnDayWeek(item.date) }})</span></th>
                                 <th>{{ item.hold }}</th>
-                                <th>{{ item.pay }}</th>
+                                <!-- <th>{{ item.pay }}</th>
                                 <th v-if="editedMinusesArray[idx]">{{ editedMinusesArray[idx].price }}</th>
-                                <th v-if="bonusesArray[idx]"><span class="text-success">{{ bonusesArray[idx].datedAt }}</span> {{ bonusesArray[idx].value }}</th>
+                                <th v-if="bonusesArray[idx]"><span class="text-success">{{ bonusesArray[idx].datedAt }}</span> {{ bonusesArray[idx].value }}</th> -->
                                 <th v-if="bonusesArray[idx]">{{ calculateSalary(item.pay, editedMinusesArray[idx].price, bonusesArray[idx].value) }}</th>
                             </tr>
                             <tr>
                                 <th class="text-success">{{ startDate }} <span class="text-light">-</span> {{ endDate }}</th>
                                 <th class="text-light"><span class="text-success">Total:</span> {{ returnTotalValus(tableDataArray, 'hold') }}</th>
-                                <th class="text-light"><span class="text-success">Total:</span> {{ returnTotalValus(tableDataArray, 'pay') }}</th>
+                                <!-- <th class="text-light"><span class="text-success">Total:</span> {{ returnTotalValus(tableDataArray, 'pay') }}</th>
                                 <th class="text-light" v-if="editedMinusesArray"><span class="text-success">Total:</span> {{ returnTotalValus(editedMinusesArray, 'price') }}</th>
-                                <th class="text-light" v-if="bonusesArray"><span class="text-success">Total:</span> {{ returnTotalValus(bonusesArray, 'value') }}</th>
+                                <th class="text-light" v-if="bonusesArray"><span class="text-success">Total:</span> {{ returnTotalValus(bonusesArray, 'value') }}</th> -->
                                 <th class="text-light" v-if="bonusesArray"><span class="text-success">Total:</span> {{ calculateSalary(returnTotalValus(tableDataArray, 'pay'), returnTotalValus(editedMinusesArray, 'price'), returnTotalValus(bonusesArray, 'value')) }}</th>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <button @click="changeUserDataShow()" class="btn btn-outline-warning">{{ usersDataShow ? 'скрыть' : 'показать' }} юзеров</button>
+                <!-- <button @click="changeUserDataShow()" class="btn btn-outline-warning">{{ usersDataShow ? 'скрыть' : 'показать' }} юзеров</button>
 
                 <div class="table-responsive mt-5" v-if="usersDataShow">
                     <table class="table table-striped table-bordered table-hover table-dark">
@@ -98,7 +98,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> -->
 
             </div>
 
