@@ -13,14 +13,6 @@ dotenv.config()
 const resedenceRoute = process.env.baseURL
 const residenceToken = process.env.residenceToken
 
-const skorozvonAPI = process.env.skorozvonAPI
-const skorozvonUSER = process.env.skorozvonUSER
-const skorozvonPassword = process.env.skorozvonPassword
-const skorozvonID = process.env.skorozvonID
-const skorozvonSecret = process.env.skorozvonSecret
-
-
-
 const report = require(path.join(__dirname, 'models', 'report.js'))
 const salary = require(path.join(__dirname, 'models', 'salary.js'))
 const grouped = require(path.join(__dirname, 'models', 'grouped.js'))
@@ -28,7 +20,6 @@ const getByLadder = require(path.join(__dirname, 'models', 'getByLadder.js'))
 
 const app = express()
 const PORT = 5000
-
 
 
 app.use(express.static('public'))
@@ -173,7 +164,7 @@ app.post('/tableSalaryBonuses', async (req, res) => {
             console.log(e)
         }
     }
-
+    
     const response = await getData()
     res.send(response)
 })
@@ -220,21 +211,24 @@ app.post('/tableTraficInput', async (req, res) => {
             })
             return response
         } catch (e) {
-            console.log(e)
+            console.log(e, '!!!!!!!!!!!!!!!  eror in mailings/leads')
         }
     }
 
-    const responseData = await getInputs()
-    const leadData = responseData.data.data
-    let brokerPrice = 0
+    try {
+        const responseData = await getInputs()
+        const leadData = responseData.data.data
+        let brokerPrice = 0
 
-    leadData.forEach((e) => {
-        let leadPrice = e.price
-        brokerPrice += leadPrice
-    })
+        leadData.forEach((e) => {
+            let leadPrice = e.price
+            brokerPrice += leadPrice
+        })
 
-    res.send({'brokerPrice' : brokerPrice, 'fullData' : leadData})
-
+        res.send({'brokerPrice' : brokerPrice, 'fullData' : leadData})
+    } catch (e) {
+        res.status(500).send('ошибка в Api')
+    }
 })
 
 
@@ -246,82 +240,6 @@ app.post('/api/changeLadder', (req, res) => {
 
     writerLadderData(testHuest)
     res.sendStatus(200)
-})
-
-async function getAuthSkorozvon() {
-    const response = await axios.post('https://api.skorozvon.ru/oauth/token', {
-        'grant_type' : "password",
-        'username' : skorozvonUSER,
-        'api_key' : skorozvonAPI,
-        'client_id' : skorozvonID,
-        'client_secret' : skorozvonSecret
-    })
-    return JSON.stringify({
-        "token" : response.data.access_token
-    })
-}
-
-async function getSkorozvonUsers() {
-    const token = await getAuthSkorozvon()
-    const tokenAuth = JSON.parse(token).token
-    const response = await axios.get('https://api.skorozvon.ru/api/v2/users',{
-        headers: { Authorization: `Bearer ${tokenAuth}` },
-    })
-
-    console.log(response.data)
-}
-
-app.get('/skorozvon/get/users', async (req, res) => {
-    
-    const token = await getAuthSkorozvon()
-    const tokenAuth = JSON.parse(token).token
-    const response = await axios.get('https://api.skorozvon.ru/api/v2/users',{
-        headers: { Authorization: `Bearer ${tokenAuth}` },
-    })
-
-    res.send({'usersData' : response.data})
-
-})
-
-app.get('/skorozvon/get/calls', async (req, res) => {
-
-    const callArray = []
-
-    const startOfMonth = dayjs(new Date).startOf('month');
-    const endOfMonth = dayjs(new Date).endOf('month');
-    
-    const token = await getAuthSkorozvon()
-    const tokenAuth = JSON.parse(token).token
-
-    const query = await axios.get('https://api.skorozvon.ru/api/v2/calls',{
-        params: {
-            'start_time' : startOfMonth,
-            'end_time' : endOfMonth,
-            'length' : 100,
-            'page' : 1
-        },
-        headers: { Authorization: `Bearer ${tokenAuth}` },
-    })
-
-    console.log(query.data.pagination.total_pages)
-
-    const total_pages = query.data.pagination.total_pages
-
-    for (let i = 1; i <= total_pages; i++) {
-        const response = await axios.get('https://api.skorozvon.ru/api/v2/calls',{
-            params: {
-                'start_time' : startOfMonth,
-                'end_time' : endOfMonth,
-                'length' : 100,
-                'page' : i
-            },
-            headers: { Authorization: `Bearer ${tokenAuth}` },
-        })
-        callArray.push(response.data)
-    }
-
-    res.send({'callsData' : callArray})
-
 })
 
 

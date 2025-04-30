@@ -201,9 +201,5 @@ let app = new Vue ({
             await this.getMinuses()
             await this.getBonuses()
         }
-    },
-    async beforeMount() {
-        await this.getUsersSkorozvon()
-        await this.getCallsSkorozvon()
     }
 })
