@@ -77,8 +77,9 @@ let app = new Vue ({
 
                 let date = dayjs(e._createdAt).format('YYYY-MM-DD')
                 let status = e.status
-                let hold = e.price?.offer ? e.price.offer : 0
-                let pay = e.price?.paid ? e.price.paid :  0
+
+                let hold = e.price && e.price.offer ? e.price.offer : 0
+                let pay = e.price && e.price.paid ? e.price.paid : 0
 
                 if (status === 'hold') {
                     this.tableDataArray.push({

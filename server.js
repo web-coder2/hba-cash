@@ -119,21 +119,22 @@ app.post('/table/getHold', async (req, res) => {
 
     async function getHolds(startDate, endDate) {
         try {
-            const response = await axios.get(`${resedenceRoute}leads/?startedAt[]=gte:${startDate}&startedAt[]=lte:${endDate}`, {
+            const response = await axios.get(`${resedenceRoute}leads/`, {
                 params: {
                     '_populate[]': ['userId', 'offerId'],
                     '_page': 1,
                     '_limit': 0,
-                    //'_sort': 'startedAt:desc'
+                    'startedAt[]': ['gte:' + startDate, 'lte:' + endDate]
                 },
                 headers: {
+                    'Content-Type' : 'application/json',
                     'Authorization': `Bearer ${residenceToken}`
                 },
             });
             return response.data;
         } catch (error) {
             console.error("Ошибка при получении данных:", error);
-            res.status(500).json({ error: "Ошибка при получении данных" }); 
+            res.status(500).json({ error: "Ошибка при получении данных : " + error }); 
             return null; 
         }
     }

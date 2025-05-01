@@ -65,7 +65,7 @@
                                 <!-- <th>{{ item.pay }}</th>
                                 <th v-if="editedMinusesArray[idx]">{{ editedMinusesArray[idx].price }}</th>
                                 <th v-if="bonusesArray[idx]"><span class="text-success">{{ bonusesArray[idx].datedAt }}</span> {{ bonusesArray[idx].value }}</th> -->
-                                <th v-if="bonusesArray[idx]">{{ calculateSalary(item.pay, editedMinusesArray[idx].price, bonusesArray[idx].value) }}</th>
+                                <th v-if="bonusesArray[idx]">{{ calculateSalary(item.pay, (editedMinusesArray[idx] ? editedMinusesArray[idx].price : 0), bonusesArray[idx].value) }}</th>
                             </tr>
                             <tr>
                                 <th class="text-success">{{ startDate }} <span class="text-light">-</span> {{ endDate }}</th>
