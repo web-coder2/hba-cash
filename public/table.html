@@ -51,10 +51,9 @@
                             <tr>
                                 <th style="white-space: nowrap;">Дата</th>
                                 <th style="white-space: nowrap;">Сумма холдов</th>
-                                <!-- <th style="white-space: npwrap;">Сумма ЗП</th>
+                                <!-- <th style="white-space: nowrap;">Сумма pay</th>
                                 <th style="white-space: nowrap;">Сума входов за этот день (минус за входы)</th>
                                 <th style="white-space: nowrap;">Сума бонусов в этот день</th> -->
-                                <!-- <th style="white-space:  nowrap;">сума зп тото тото</th> -->
                                 <th style="white-space:  nowrap;">сума зп брокеров</th>
                             </tr>
                         </thead>
@@ -64,7 +63,7 @@
                                 <th>{{ item.hold }}</th>
                                 <!-- <th>{{ item.pay }}</th>
                                 <th v-if="editedMinusesArray[idx]">{{ editedMinusesArray[idx].price }}</th>
-                                <th v-if="bonusesArray[idx]"><span class="text-success">{{ bonusesArray[idx].datedAt }}</span> {{ bonusesArray[idx].value }}</th> -->
+                                <th v-if="bonusesArray[idx]">{{ bonusesArray[idx].value }}</th> -->
                                 <th v-if="bonusesArray[idx]">{{ calculateSalary(item.pay, (editedMinusesArray[idx] ? editedMinusesArray[idx].price : 0), bonusesArray[idx].value) }}</th>
                             </tr>
                             <tr>
@@ -99,6 +98,26 @@
                         </tbody>
                     </table>
                 </div> -->
+
+
+                <div class="table-responsive mt-5" v-if="!loading && minusesArrayAgregated.length > 0">
+                    <table class="table table-striped table-bordered table-hover table-dark">
+                        <thead class="bg-warning text-light">
+                            <tr>
+                                <th>user</th>
+                                <th>user count of Leads</th>
+                                <th>sum of minuses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, idx) in minusesArrayAgregated" v-if="!loading">
+                                <th>{{ item.userId }}</th>
+                                <th>{{ item.countLeads }}</th>
+                                <th>{{ item.summMinuses }}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
 

@@ -46,11 +46,12 @@ let app = new Vue ({
         holdArray: [],
         brokersArray: [],
         editedMinusesArray: [],
+        minusesArrayAgregated: [],
         bonusesArray: [],
 
         tableDataArray: [],
         usersData: [],
-        usersDataShow: false,
+        usersDataShow: false
     },
     methods: {
         async getHoldData() {
@@ -136,9 +137,34 @@ let app = new Vue ({
 
                 this.editedMinusesArray.push({
                     'datedAt' : date,
-                    'price' : e.price
+                    'price' : e.new ? 10 : 5
                 })
             })
+
+            this.minusesArray.forEach((q) => {
+
+                const minuse = q.new ? 10 : 5
+              
+                if (q.userId && q.userId._id) {
+                  let userEntry = this.minusesArrayAgregated.find(entry => entry.userId === q.userId.name)
+              
+                  if (userEntry) {
+                    userEntry.countLeads++
+                    userEntry.summMinuses += minuse
+                  } else {
+                    this.minusesArrayAgregated.push({
+                      userId: q.userId.name,
+                      countLeads: 1,
+                      summMinuses: minuse
+                    });
+                  }
+                } else {
+                  console.warn('Объект q или q.userId._id отсутствует', q)
+                }
+              });
+
+
+
 
             this.editedMinusesArray = aggregateData(this.editedMinusesArray, 'datedAt', 'price')
         },
@@ -163,7 +189,7 @@ let app = new Vue ({
             this.bonusesArray = aggregateData(this.bonusesArray, 'datedAt', 'value')
         },
         calculateSalary(hold, price, bonuses) {
-            return ( (hold / 50 * 65) + (hold * 0.2) + parseInt(this.numToSalary) - price + bonuses )
+            return Math.round(( (hold / 50 * 60) + (hold * 0.2) + parseInt(this.numToSalary) - price + bonuses ))
         },
         returnDayWeek(itemDay){
             return dayjs(itemDay).format('dddd')
